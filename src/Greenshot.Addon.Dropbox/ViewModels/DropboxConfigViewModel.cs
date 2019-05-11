@@ -1,6 +1,4 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
+﻿// Greenshot - a free and open source screenshot tool
 // Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
@@ -18,8 +16,6 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-#endregion
 
 using System.Reactive.Disposables;
 using Dapplo.CaliburnMicro.Configuration;
@@ -40,12 +36,27 @@ namespace Greenshot.Addon.Dropbox.ViewModels
         /// </summary>
         private CompositeDisposable _disposables;
 
+        /// <summary>
+        /// Provide IDropboxConfiguration to the view
+        /// </summary>
         public IDropboxConfiguration DropboxConfiguration { get; set; }
 
+        /// <summary>
+        /// Provide IDropboxLanguage to the view
+        /// </summary>
         public IDropboxLanguage DropboxLanguage { get; set; }
 
+        /// <summary>
+        /// Provide FileConfigPartViewModel to the view
+        /// </summary>
         public FileConfigPartViewModel FileConfigPartViewModel { get; private set; }
 
+        /// <summary>
+        /// DI constructor
+        /// </summary>
+        /// <param name="dropboxConfiguration">IDropboxConfiguration</param>
+        /// <param name="dropboxLanguage">IDropboxLanguage</param>
+        /// <param name="fileConfigPartViewModel">FileConfigPartViewModel</param>
         public DropboxConfigViewModel(
             IDropboxConfiguration dropboxConfiguration,
             IDropboxLanguage dropboxLanguage,
@@ -57,6 +68,7 @@ namespace Greenshot.Addon.Dropbox.ViewModels
             FileConfigPartViewModel = fileConfigPartViewModel;
         }
 
+        /// <inheritdoc />
         public override void Initialize(IConfig config)
         {
             FileConfigPartViewModel.DestinationFileConfiguration = DropboxConfiguration;
@@ -79,6 +91,7 @@ namespace Greenshot.Addon.Dropbox.ViewModels
             base.Initialize(config);
         }
 
+        /// <inheritdoc />
         protected override void OnDeactivate(bool close)
         {
             _disposables.Dispose();

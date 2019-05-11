@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,13 +17,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
-using System.Drawing;
-
-#endregion
+using Greenshot.Gfx;
 
 namespace Greenshot.Addons.Interfaces.Drawing
 {
@@ -34,8 +26,15 @@ namespace Greenshot.Addons.Interfaces.Drawing
     /// </summary>
 	public interface IBitmapContainer : IDrawableContainer
 	{
-		Bitmap Bitmap { get; set; }
+        /// <summary>
+        /// The actual IBitmap
+        /// </summary>
+        IBitmapWithNativeSupport Bitmap { get; set; }
 
+		/// <summary>
+		/// Load a bitmap into this container
+		/// </summary>
+		/// <param name="filename">string</param>
 		void Load(string filename);
 	}
 }

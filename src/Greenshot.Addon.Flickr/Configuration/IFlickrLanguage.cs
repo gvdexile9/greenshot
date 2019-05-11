@@ -17,20 +17,21 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#region Usings
-
 using System.Diagnostics.CodeAnalysis;
 using Dapplo.Config.Language;
 
-#endregion
-
 namespace Greenshot.Addon.Flickr.Configuration
 {
+	/// <summary>
+	/// Translations for the flickr add-on
+	/// </summary>
 	[Language("Flickr")]
 	[SuppressMessage("ReSharper", "UnusedMember.Global")]
     public interface IFlickrLanguage : ILanguage
 	{
-		string CommunicationWait { get; }
+#pragma warning disable 1591
+
+        string CommunicationWait { get; }
 
 		string Configure { get; }
 

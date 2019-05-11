@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,10 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -31,8 +25,6 @@ using Greenshot.Addon.LegacyEditor.Drawing.Adorners;
 using Greenshot.Addon.LegacyEditor.Drawing.Fields;
 using Greenshot.Addons.Interfaces.Drawing;
 using Greenshot.Gfx.Legacy;
-
-#endregion
 
 namespace Greenshot.Addon.LegacyEditor.Drawing
 {
@@ -44,11 +36,17 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 	{
 		public static readonly int MAX_CLICK_DISTANCE_TOLERANCE = 10;
 
+        /// <summary>
+        /// Constructor taking all dependencies
+        /// </summary>
+        /// <param name="parent">parent</param>
+        /// <param name="editorConfiguration">IEditorConfiguration</param>
 		public LineContainer(Surface parent, IEditorConfiguration editorConfiguration) : base(parent, editorConfiguration)
 		{
 			Init();
 		}
 
+        /// <inheritdoc />
 		protected override void InitializeFields()
 		{
 			AddField(GetType(), FieldTypes.LINE_THICKNESS, 2);
@@ -56,17 +54,22 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 			AddField(GetType(), FieldTypes.SHADOW, true);
 		}
 
+        /// <inheritdoc />
 		protected override void OnDeserialized(StreamingContext context)
 		{
 			Init();
 		}
 
+        /// <summary>
+        /// Initialize this container
+        /// </summary>
 		protected void Init()
 		{
 			Adorners.Add(new MoveAdorner(this, Positions.TopLeft));
 			Adorners.Add(new MoveAdorner(this, Positions.BottomRight));
 		}
 
+        /// <inheritdoc />
 		public override void Draw(Graphics graphics, RenderMode rm)
 		{
 			graphics.SmoothingMode = SmoothingMode.HighQuality;
@@ -98,8 +101,10 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 								Top + currentStep + Height);
 
 							currentStep++;
-							alpha = alpha - basealpha / steps;
-						}
+#pragma warning disable IDE0054 // Use compound assignment
+                            alpha = alpha - basealpha / steps;
+#pragma warning restore IDE0054 // Use compound assignment
+                        }
 					}
 				}
 
@@ -110,6 +115,7 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 			}
 		}
 
+        /// <inheritdoc />
 		public override bool ClickableAt(int x, int y)
 		{
 			var lineThickness = GetFieldValueAsInt(FieldTypes.LINE_THICKNESS) + 5;
@@ -128,9 +134,10 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 			return false;
 		}
 
-		protected override ScaleHelper.IDoubleProcessor GetAngleRoundProcessor()
+        /// <inheritdoc />
+		protected override IDoubleProcessor GetAngleRoundProcessor()
 		{
-			return ScaleHelper.LineAngleRoundBehavior.Instance;
+			return LineAngleRoundBehavior.Instance;
 		}
 	}
 }

@@ -1,6 +1,4 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
+﻿// Greenshot - a free and open source screenshot tool
 // Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
@@ -19,13 +17,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
@@ -49,8 +42,6 @@ using Greenshot.Addons.Extensions;
 using Greenshot.Addons.Interfaces;
 using Greenshot.Gfx;
 
-#endregion
-
 namespace Greenshot.Addon.OneDrive
 {
     /// <summary>
@@ -72,6 +63,17 @@ namespace Greenshot.Addon.OneDrive
 
         private readonly HttpBehaviour _oneDriveHttpBehaviour;
 
+        /// <summary>
+        /// DI constructor
+        /// </summary>
+        /// <param name="oneDriveConfiguration">IOneDriveConfiguration</param>
+        /// <param name="oneDriveLanguage">IOneDriveLanguage</param>
+        /// <param name="httpConfiguration">IHttpConfiguration</param>
+        /// <param name="resourceProvider">IResourceProvider</param>
+        /// <param name="pleaseWaitFormFactory">Func</param>
+        /// <param name="coreConfiguration">ICoreConfiguration</param>
+        /// <param name="greenshotLanguage">IGreenshotLanguage</param>
+        /// <param name="exportNotification">ExportNotification</param>
         public OneDriveDestination(
             IOneDriveConfiguration oneDriveConfiguration,
             IOneDriveLanguage oneDriveLanguage,
@@ -115,9 +117,11 @@ namespace Greenshot.Addon.OneDrive
             };
         }
 
+        /// <inheritdoc />
         public override string Description => _oneDriveLanguage.UploadMenuItem;
 
-        public override Bitmap DisplayIcon
+        /// <inheritdoc />
+        public override IBitmapWithNativeSupport DisplayIcon
         {
             get
             {
@@ -129,6 +133,7 @@ namespace Greenshot.Addon.OneDrive
             }
         }
 
+        /// <inheritdoc />
         public override async Task<ExportInformation> ExportCaptureAsync(bool manuallyInitiated, ISurface surface,
             ICaptureDetails captureDetails)
         {

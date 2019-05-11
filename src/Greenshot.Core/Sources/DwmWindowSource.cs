@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -18,8 +16,6 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-#endregion
 
 using System;
 using System.Threading;
@@ -40,12 +36,18 @@ namespace Greenshot.Core.Sources
         private readonly ICaptureConfiguration _captureConfiguration;
         private readonly Func<IInteropWindow> _retrieveWindowFunc;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="captureConfiguration">ICaptureConfiguration</param>
+        /// <param name="retrieveWindowFunc">Func to select the window</param>
         public DwmWindowSource(ICaptureConfiguration captureConfiguration, Func<IInteropWindow> retrieveWindowFunc = null)
         {
             _captureConfiguration = captureConfiguration;
             _retrieveWindowFunc = retrieveWindowFunc ?? InteropWindowQuery.GetForegroundWindow;
         }
 
+        /// <inheritdoc/>
         public ValueTask<ICaptureElement<BitmapSource>> Import(CancellationToken cancellationToken = default)
         {
             var window = _retrieveWindowFunc();

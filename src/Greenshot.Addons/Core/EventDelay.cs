@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,33 +17,38 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
-
-#endregion
 
 namespace Greenshot.Addons.Core
 {
+	/// <summary>
+	/// A helper to delay events for hotkeys in Windows 7
+	/// </summary>
 	public class EventDelay
 	{
-		private readonly long waitTime;
-		private long lastCheck;
+		private readonly long _waitTime;
+		private long _lastCheck;
 
+		/// <summary>
+		/// Default constructor
+		/// </summary>
+		/// <param name="ticks"></param>
 		public EventDelay(long ticks)
 		{
-			waitTime = ticks;
+			_waitTime = ticks;
 		}
 
-		public bool Check()
+        /// <summary>
+        /// Can we handle the next event
+        /// </summary>
+        /// <returns>bool</returns>
+        public bool Check()
 		{
 			lock (this)
 			{
 				var now = DateTime.Now.Ticks;
-				var isPassed = now - lastCheck > waitTime;
-				lastCheck = now;
+				var isPassed = now - _lastCheck > _waitTime;
+				_lastCheck = now;
 				return isPassed;
 			}
 		}

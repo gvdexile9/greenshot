@@ -1,6 +1,4 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
+﻿// Greenshot - a free and open source screenshot tool
 // Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
@@ -19,13 +17,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -50,10 +43,11 @@ using Greenshot.Addons.Interfaces;
 using Greenshot.Gfx;
 using Newtonsoft.Json;
 
-#endregion
-
 namespace Greenshot.Addon.Dropbox
 {
+    /// <summary>
+    /// This is the destination implementation to export to dropbox
+    /// </summary>
     [Destination("Dropbox")]
     public sealed class DropboxDestination : AbstractDestination
 	{
@@ -69,7 +63,18 @@ namespace Greenshot.Addon.Dropbox
 	    private OAuth2Settings _oAuth2Settings;
 	    private IHttpBehaviour _oAuthHttpBehaviour;
 
-	    public DropboxDestination(
+        /// <summary>
+        /// DI Coonstructor
+        /// </summary>
+        /// <param name="dropboxPluginConfiguration">IDropboxConfiguration</param>
+        /// <param name="dropboxLanguage">IDropboxLanguage</param>
+        /// <param name="httpConfiguration">IHttpConfiguration</param>
+        /// <param name="resourceProvider">IResourceProvider</param>
+        /// <param name="coreConfiguration">ICoreConfiguration</param>
+        /// <param name="greenshotLanguage">IGreenshotLanguage</param>
+        /// <param name="exportNotification">ExportNotification</param>
+        /// <param name="pleaseWaitFormFactory">Func</param>
+        public DropboxDestination(
 	        IDropboxConfiguration dropboxPluginConfiguration,
 	        IDropboxLanguage dropboxLanguage,
 	        IHttpConfiguration httpConfiguration,
@@ -114,7 +119,8 @@ namespace Greenshot.Addon.Dropbox
 	        httpBehaviour.HttpSettings = httpConfiguration;
         }
 
-        public override Bitmap DisplayIcon
+        /// <inheritdoc />
+        public override IBitmapWithNativeSupport DisplayIcon
 		{
 			get
 			{
@@ -126,9 +132,11 @@ namespace Greenshot.Addon.Dropbox
             }
 		}
 
-		public override string Description => _dropboxLanguage.UploadMenuItem;
+        /// <inheritdoc />
+        public override string Description => _dropboxLanguage.UploadMenuItem;
 
-	    public override async Task<ExportInformation> ExportCaptureAsync(bool manuallyInitiated, ISurface surface, ICaptureDetails captureDetails)
+        /// <inheritdoc />
+        public override async Task<ExportInformation> ExportCaptureAsync(bool manuallyInitiated, ISurface surface, ICaptureDetails captureDetails)
 		{
 			var exportInformation = new ExportInformation(Designation, Description);
 		    var uploadUrl = await UploadAsync(surface).ConfigureAwait(true);

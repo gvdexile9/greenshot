@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,22 +17,44 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 namespace Greenshot.Gfx.Legacy
 {
 	/// <summary>
-	///     Position
+	/// This specifies the position of something
 	/// </summary>
 	public enum Positions
 	{
+        /// <summary>
+        /// Position top left
+        /// </summary>
 		TopLeft = 0,
-		TopCenter = 1,
-		TopRight = 2,
-		MiddleRight = 3,
-		BottomRight = 4,
-		BottomCenter = 5,
-		BottomLeft = 6,
-		MiddleLeft = 7
+        /// <summary>
+        /// Position top center
+        /// </summary>
+        TopCenter = 1,
+        /// <summary>
+        /// Position top right
+        /// </summary>
+        TopRight = 2,
+        /// <summary>
+        /// Position middle right
+        /// </summary>
+        MiddleRight = 3,
+        /// <summary>
+        /// Position bottom right
+        /// </summary>
+        BottomRight = 4,
+        /// <summary>
+        /// Position bottom center
+        /// </summary>
+        BottomCenter = 5,
+        /// <summary>
+        /// Position bottom left
+        /// </summary>
+        BottomLeft = 6,
+        /// <summary>
+        /// Position middle left
+        /// </summary>
+        MiddleLeft = 7
 	}
 }

@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,18 +17,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System.Drawing;
 using System.Runtime.Serialization;
 using Dapplo.Windows.Common.Extensions;
 using Dapplo.Windows.Common.Structs;
 using Greenshot.Addon.LegacyEditor.Drawing.Fields;
 using Greenshot.Addons.Interfaces.Drawing;
-
-#endregion
 
 namespace Greenshot.Addon.LegacyEditor.Drawing
 {
@@ -73,7 +65,7 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 
 		protected override void InitializeFields()
 		{
-			AddField(GetType(), FieldTypes.FLAGS, FieldFlag.CONFIRMABLE);
+			AddField(GetType(), FieldTypes.FLAGS, FieldFlag.Confirmable);
 		}
 
 		public override void Invalidate()

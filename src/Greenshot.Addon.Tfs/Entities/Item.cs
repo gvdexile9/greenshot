@@ -1,6 +1,4 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
+﻿// Greenshot - a free and open source screenshot tool
 // Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
@@ -19,8 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 using System;
 using Newtonsoft.Json;
 
@@ -32,9 +28,15 @@ namespace Greenshot.Addon.Tfs.Entities
     [JsonObject]
     public class CreateAttachmentResult
     {
+        /// <summary>
+        /// The ID of the attachment
+        /// </summary>
         [JsonProperty("id")]
-        public string id { get; set; }
+        public string Id { get; set; }
 
+        /// <summary>
+        /// The URL where the attachment can be found
+        /// </summary>
         [JsonProperty("url")]
         public Uri Url { get; set; }
     }

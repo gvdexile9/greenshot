@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,10 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Windows.Forms;
 using Dapplo.Config.Language;
@@ -32,8 +26,6 @@ using Dapplo.Windows.Gdi32.Enums;
 using Dapplo.Windows.Gdi32.SafeHandles;
 using Greenshot.Addons.Core;
 
-#endregion
-
 namespace Greenshot.Addons.Controls
 {
 	/// <summary>
@@ -41,6 +33,9 @@ namespace Greenshot.Addons.Controls
 	/// </summary>
 	public class AnimatingForm : GreenshotForm
 	{
+        /// <summary>
+        /// The ICoreConfiguration which can be used in all derived forms
+        /// </summary>
 	    protected readonly ICoreConfiguration _coreConfiguration;
 	    private const int DefaultVerticalRefresh = 60;
 		private static readonly LogSource Log = new LogSource();

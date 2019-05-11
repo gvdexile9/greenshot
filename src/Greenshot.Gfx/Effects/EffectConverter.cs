@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,18 +17,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.Text;
 using Dapplo.Windows.Common.Extensions;
 using Dapplo.Windows.Common.Structs;
-
-#endregion
 
 namespace Greenshot.Gfx.Effects
 {
@@ -42,13 +34,17 @@ namespace Greenshot.Gfx.Effects
 		// Fix to prevent BUG-1753
 		private readonly NumberFormatInfo _numberFormatInfo = new NumberFormatInfo();
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
 		public EffectConverter()
 		{
 			_numberFormatInfo.NumberDecimalSeparator = ".";
 			_numberFormatInfo.NumberGroupSeparator = ",";
 		}
 
-		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        /// <inheritdoc />
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
 		{
 			if (sourceType == typeof(string))
 			{
@@ -57,12 +53,14 @@ namespace Greenshot.Gfx.Effects
 			return base.CanConvertFrom(context, sourceType);
 		}
 
-		public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        /// <inheritdoc />
+        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
 		{
 			return destinationType == typeof(string) || destinationType == typeof(DropShadowEffect) || destinationType == typeof(TornEdgeEffect) || base.CanConvertTo(context, destinationType);
 		}
 
-		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        /// <inheritdoc />
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
 		{
 			// to string
 			if (destinationType == typeof(string))
@@ -101,7 +99,8 @@ namespace Greenshot.Gfx.Effects
 		    return base.ConvertTo(context, culture, value, destinationType);
 		}
 
-		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        /// <inheritdoc />
+        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 		{
 		    if (!(value is string settings))
 		    {
@@ -110,7 +109,8 @@ namespace Greenshot.Gfx.Effects
 		    return ConvertTo(context, culture, settings, settings.Contains("ToothHeight") ? typeof(TornEdgeEffect) : typeof(DropShadowEffect));
 		}
 
-		private void ApplyDropShadowEffectValues(string valuesString, DropShadowEffect effect)
+        /// <inheritdoc />
+        private void ApplyDropShadowEffectValues(string valuesString, DropShadowEffect effect)
 		{
 			var values = valuesString.Split('|');
 			foreach (var nameValuePair in values)

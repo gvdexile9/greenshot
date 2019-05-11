@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,27 +17,26 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using Greenshot.Addons.Resources;
 
-#endregion
-
 namespace Greenshot.Addons.Controls
 {
 	/// <summary>
-	///     Description of PleaseWaitForm.
+	/// This form is used to show in the background
 	/// </summary>
 	public sealed partial class BackgroundForm : Form
 	{
 		private volatile bool _shouldClose;
 
+        /// <summary>
+        /// Constructor for the form
+        /// </summary>
+        /// <param name="title">string</param>
+        /// <param name="text">string</param>
 		public BackgroundForm(string title, string text)
 		{
 			//
@@ -59,6 +56,12 @@ namespace Greenshot.Addons.Controls
 			ShowDialog();
 		}
 
+        /// <summary>
+        /// Show this form an wait
+        /// </summary>
+        /// <param name="title">string</param>
+        /// <param name="text">string</param>
+        /// <returns>BackgroundForm</returns>
 		public static BackgroundForm ShowAndWait(string title, string text)
 		{
 			var backgroundForm = new BackgroundForm(title, text);
@@ -71,8 +74,10 @@ namespace Greenshot.Addons.Controls
 			return backgroundForm;
 		}
 
-		// Can be used instead of ShowDialog
-		public new void Show()
+        /// <summary>
+        /// Can be used instead of ShowDialog
+        /// </summary>
+        public new void Show()
 		{
 			base.Show();
 			var positioned = false;
@@ -108,6 +113,9 @@ namespace Greenshot.Addons.Controls
 			}
 		}
 
+        /// <summary>
+        /// Close the form
+        /// </summary>
 		public void CloseDialog()
 		{
 			_shouldClose = true;

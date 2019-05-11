@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -18,10 +16,6 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-#endregion
-
-#region Usings
 
 using System;
 using System.Collections.Generic;
@@ -40,8 +34,9 @@ using Greenshot.Addons.Animation;
 using Greenshot.Addons.Controls;
 using Greenshot.Addons.Core;
 using Greenshot.Gfx;
-
-#endregion
+using Dapplo.Windows.User32;
+using Dapplo.Windows.Dpi;
+using System.Text;
 
 namespace Greenshot.Forms
 {
@@ -124,7 +119,7 @@ namespace Greenshot.Forms
         private readonly IList<Color> _pixelColors = new List<Color>();
         private readonly IList<RectangleAnimator> _pixels = new List<RectangleAnimator>();
         private readonly Random _rand = new Random();
-        private Bitmap _bitmap;
+        private IBitmapWithNativeSupport _bitmap;
         private int _colorIndex;
         private bool _hasAnimationsLeft;
         private int _scrollCount;
@@ -156,14 +151,14 @@ namespace Greenshot.Forms
 
             // Use the self drawn image, first we create the background to be the backcolor (as we animate from this)
             _bitmap = BitmapFactory.CreateEmpty(90, 90, PixelFormat.Format24bppRgb, BackColor);
-            pictureBox1.Image = _bitmap;
+            pictureBox1.Image = _bitmap?.NativeBitmap;
 
             _dpiSubscription = FormDpiHandler.OnDpiChanged.Subscribe(info =>
                 {
                     pictureBox1.Size = FormDpiHandler.ScaleWithCurrentDpi(new NativeSize(90,90));
                 });
 
-            var versionInfo = $@"Greenshot {versionProvider.CurrentVersion} {(coreConfiguration.IsPortable ? " Portable" : "")} ({OsInfo.Bits} bit)";
+            var versionInfo = $@"Greenshot {versionProvider.CurrentVersion} {(SingleExeHelper.IsRunningAsSingleExe? "SE " : "")}({OsInfo.Bits} bit)";
             if (versionProvider.IsUpdateAvailable)
             {
                 versionInfo += $" latest is: {versionProvider.LatestVersion}";
@@ -252,7 +247,12 @@ namespace Greenshot.Forms
             try
             {
                 linkLabel.LinkVisited = true;
-                Process.Start(linkLabel.Text);
+                var processStartInfo = new ProcessStartInfo(linkLabel.Text)
+                {
+                    CreateNoWindow = true,
+                    UseShellExecute = true
+                };
+                Process.Start(processStartInfo);
             }
             catch (Exception)
             {
@@ -314,7 +314,7 @@ namespace Greenshot.Forms
             }
 
             // Draw the "G"
-            using (var graphics = Graphics.FromImage(_bitmap))
+            using (var graphics = Graphics.FromImage(_bitmap.NativeBitmap))
             {
                 graphics.SmoothingMode = SmoothingMode.HighQuality;
                 graphics.InterpolationMode = InterpolationMode.HighQualityBilinear;
@@ -362,7 +362,11 @@ namespace Greenshot.Forms
                         DialogResult = DialogResult.Cancel;
                         break;
                     case Keys.E:
-                        MessageBox.Show(EnvironmentInfo.EnvironmentToString(true));
+                        var info = new StringBuilder(EnvironmentInfo.EnvironmentToString(true));
+                        var screenboundsSize = DisplayInfo.ScreenBounds.Size;
+                        info.AppendLine();
+                        info.AppendFormat("Screen: {0} at {1}%", $"{screenboundsSize.Width} x {screenboundsSize.Height}", FormDpiHandler.ScaleWithCurrentDpi(100));
+                        MessageBox.Show(info.ToString(), "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         break;
                     case Keys.L:
                         // TODO: Open the log file

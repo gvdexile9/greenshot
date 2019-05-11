@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,18 +17,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Dapplo.Log;
-using Greenshot.Addons.Config.Impl;
 using Greenshot.Addons.Core;
 using Greenshot.Addons.Interfaces;
-
-#endregion
 
 namespace Greenshot.Processors
 {
@@ -46,11 +35,14 @@ namespace Greenshot.Processors
             _coreConfiguration = coreConfiguration;
         }
 
-		public override string Designation => "TitleFix";
+        /// <inheritdoc />
+        public override string Designation => "TitleFix";
 
-		public override string Description => Designation;
+        /// <inheritdoc />
+        public override string Description => Designation;
 
-		public override bool ProcessCapture(ISurface surface, ICaptureDetails captureDetails)
+        /// <inheritdoc />
+        public override bool ProcessCapture(ISurface surface, ICaptureDetails captureDetails)
 		{
 			var changed = false;
 			var title = captureDetails.Title;

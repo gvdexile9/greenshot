@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,8 +17,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
+using System;
 using Autofac;
 using Dapplo.Addons;
 using Dapplo.CaliburnMicro.Configuration;
@@ -32,13 +29,33 @@ using Greenshot.Addon.Office.Destinations;
 using Greenshot.Addon.Office.OfficeExport;
 using Greenshot.Addon.Office.ViewModels;
 using Greenshot.Addons.Components;
-using Greenshot.Addons.Core;
+using Microsoft.Win32;
 
 namespace Greenshot.Addon.Office
 {
     /// <inheritdoc />
     public class OfficeAddonModule : AddonModule
     {
+        private const string Word = "Word.Application";
+        private const string Excel = "Exceldd.Application";
+        private const string PowerPoint = "PowerPoint.Application";
+        private const string OneNote = "OneNote.Application";
+        private const string Outlook = @"Outlook.Application";
+
+        /// <summary>
+        /// Helper method to test the registry for the existence of an application
+        /// </summary>
+        /// <param name="applicationName">string with the application name</param>
+        /// <returns></returns>
+        private bool HasApplication(string applicationName)
+        {
+            string registryPath = $@"{applicationName}\CLSID";
+            using (var registryKey = Registry.ClassesRoot.OpenSubKey(registryPath, false))
+            {
+                return registryKey != null && Guid.TryParse(registryKey.GetValue(null) as string, out _);
+            }
+        }
+        
         /// <summary>
         /// Define the dependencies of this project
         /// </summary>
@@ -47,7 +64,7 @@ namespace Greenshot.Addon.Office
         {
             var hasDestination = false;
 
-            if (PluginUtils.GetExePath("EXCEL.EXE") != null)
+            if (HasApplication(Excel))
             {
                 hasDestination = true;
                 builder
@@ -56,7 +73,7 @@ namespace Greenshot.Addon.Office
                     .SingleInstance();
             }
 
-            if (PluginUtils.GetExePath("WINWORD.EXE") != null)
+            if (HasApplication(Word))
             {
                 hasDestination = true;
                 builder
@@ -65,7 +82,7 @@ namespace Greenshot.Addon.Office
                     .SingleInstance();
             }
 
-            if (PluginUtils.GetExePath("POWERPNT.EXE") != null)
+            if (HasApplication(PowerPoint))
             {
                 hasDestination = true;
                 builder
@@ -74,7 +91,7 @@ namespace Greenshot.Addon.Office
                     .SingleInstance();
             }
 
-            if (PluginUtils.GetExePath("ONENOTE.EXE") != null)
+            if (HasApplication(OneNote))
             {
                 hasDestination = true;
                 builder
@@ -88,7 +105,7 @@ namespace Greenshot.Addon.Office
                     .SingleInstance();
             }
 
-            if (PluginUtils.GetExePath("OUTLOOK.EXE") != null)
+            if (HasApplication(Outlook))
             {
                 hasDestination = true;
                 builder

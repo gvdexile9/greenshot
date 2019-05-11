@@ -25,9 +25,12 @@ using Greenshot.Core.Enums;
 
 namespace Greenshot.Addon.Dropbox.Configuration.Impl
 {
+    /// <summary>
+    /// Implementation of the IDropboxConfiguration
+    /// </summary>
     public class DropboxConfigurationImpl : IniSectionBase<IDropboxConfiguration>, IDropboxConfiguration
     {
-        #region Implementation of IFileConfiguration
+#pragma warning disable 1591
 
         public string OutputFilePath { get; set; }
         public bool OutputFileAllowOverwrite { get; set; }
@@ -42,15 +45,7 @@ namespace Greenshot.Addon.Dropbox.Configuration.Impl
         public string OptimizePNGCommand { get; set; }
         public string OptimizePNGCommandArguments { get; set; }
 
-        #endregion
-
-        #region Implementation of IDestinationFileConfiguration
-
         public bool UseOwnSettings { get; set; }
-
-        #endregion
-
-        #region Implementation of IOAuth2Token
 
         [TypeConverter(typeof(StringEncryptionTypeConverter))]
         public string OAuth2AccessToken { get; set; }
@@ -60,14 +55,8 @@ namespace Greenshot.Addon.Dropbox.Configuration.Impl
         [TypeConverter(typeof(StringEncryptionTypeConverter))]
         public string OAuth2RefreshToken { get; set; }
 
-        #endregion
-
-        #region Implementation of IDropboxConfiguration
-
         public bool AfterUploadLinkToClipBoard { get; set; }
         public string ClientId { get; set; }
         public string ClientSecret { get; set; }
-
-        #endregion
     }
 }

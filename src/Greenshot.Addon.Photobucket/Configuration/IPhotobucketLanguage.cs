@@ -17,18 +17,18 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#region Usings
-
 using System.ComponentModel;
 using Dapplo.Config.Language;
 
-#endregion
-
 namespace Greenshot.Addon.Photobucket.Configuration
 {
+	/// <summary>
+	/// This contains the translations for the photo bucket add-on
+	/// </summary>
 	[Language("Photobucket")]
 	public interface IPhotobucketLanguage : ILanguage, INotifyPropertyChanged
 	{
+#pragma warning disable 1591
 		string CommunicationWait { get; }
 
 		string Configure { get; }

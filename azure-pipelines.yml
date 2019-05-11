@@ -13,14 +13,14 @@ variables:
 
 steps:
 - task: DotNetCoreInstaller@0
-  displayName: 'Use .NET Core sdk 3.0'
+  displayName: 'Install .NET Core SDK 3.0'
   inputs:
-    version: '3.0.100-preview4-010520'
+    version: '3.0.100-preview6-011809'
 
 - task: NuGetToolInstaller@0
-  displayName: 'Use NuGet 4.9.2'
+  displayName: 'Use NuGet 5.0.0'
   inputs:
-    versionSpec: 4.9.2
+    versionSpec: 5.0.0
     checkLatest: true
 
 - task: NuGetCommand@2
@@ -29,22 +29,43 @@ steps:
     restoreSolution: '$(solution)'
     feedsToUse: config
 
-- task: VSBuild@1
-  displayName: 'Build solution **\*.sln'
+- task: DotNetCoreCLI@2
+  displayName: Publish single-exe x64
   inputs:
-    vsVersion: 'latest'
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: 'publish'
+    publishWebProjects: false
+    projects: 'src\Greenshot\Greenshot.csproj'
+    arguments: '-f netcoreapp3.0 -c Release /p:PublishSingleFile=true /p:UseAppHost=true /p:RuntimeIdentifier=win-x64 /p:PublishReadyToRun=true'
+    zipAfterPublish: false
+
+- task: CmdLine@2
+  displayName: Rename single-exe x64
+  inputs:
+    script: 'rename $(Build.SourcesDirectory)\src\Greenshot\bin\Release\netcoreapp3.0\win-x64\publish\Greenshot.exe Greenshot-x64.exe'
+
+- task: DotNetCoreCLI@2
+  displayName: Publish single-exe x86
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: 'src\Greenshot\Greenshot.csproj'
+    arguments: '-f netcoreapp3.0 -c Release /p:PublishSingleFile=true /p:UseAppHost=true /p:RuntimeIdentifier=win-x86 /p:PublishReadyToRun=true'
+    zipAfterPublish: false
+
+- task: CmdLine@2
+  displayName: Rename single-exe x86
+  inputs:
+    script: 'rename $(Build.SourcesDirectory)\src\Greenshot\bin\Release\netcoreapp3.0\win-x86\publish\Greenshot.exe Greenshot-x86.exe' 
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)\src\Greenshot\bin\$(BuildConfiguration)'
+    SourceFolder: '$(Build.SourcesDirectory)\src\Greenshot\bin\Release\netcoreapp3.0'
     Contents: |
-     **
+     win-x64\publish\Greenshot-x64.exe
+     win-x86\publish\Greenshot-x86.exe
     TargetFolder: '$(build.artifactstagingdirectory)'
-    flattenFolders: false
+    flattenFolders: true
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'

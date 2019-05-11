@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,8 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 namespace Greenshot.Addons.Animation
 {
 	/// <summary>
@@ -28,12 +24,33 @@ namespace Greenshot.Addons.Animation
 	/// </summary>
 	public enum EasingTypes
 	{
+        /// <summary>
+        /// Use easing with steps
+        /// </summary>
 		Step,
+        /// <summary>
+        /// Use linear easing
+        /// </summary>
 		Linear,
+        /// <summary>
+        /// Use sine easing
+        /// </summary>
 		Sine,
+        /// <summary>
+        /// Use quadratic easing
+        /// </summary>
 		Quadratic,
+        /// <summary>
+        /// Use cubic easing
+        /// </summary>
 		Cubic,
+        /// <summary>
+        /// Use quartic easing
+        /// </summary>
 		Quartic,
+        /// <summary>
+        /// Use quintic easing
+        /// </summary>
 		Quintic
 	}
 }

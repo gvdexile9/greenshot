@@ -17,18 +17,18 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#region Usings
-
 using Dapplo.Config.Language;
-
-#endregion
 
 namespace Greenshot.Addon.Dropbox.Configuration
 {
+    /// <summary>
+    /// Translations for the dropbox add-on
+    /// </summary>
 	[Language("Dropbox")]
 	public interface IDropboxLanguage : ILanguage
 	{
-		string CommunicationWait { get; }
+#pragma warning disable 1591
+        string CommunicationWait { get; }
 
 		string Configure { get; }
 

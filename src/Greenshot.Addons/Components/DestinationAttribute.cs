@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,17 +17,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 using System;
 using System.ComponentModel.Composition;
 
 namespace Greenshot.Addons.Components
 {
+    /// <summary>
+    /// This attribute is used on a destination
+    /// </summary>
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public class DestinationAttribute : Attribute
     {
+        /// <summary>
+        /// This is needed to make sure the values do not need to be specified
+        /// </summary>
         public DestinationAttribute()
         {
 
@@ -59,7 +61,10 @@ namespace Greenshot.Addons.Components
             }
         }
 
+        /// <inheritdoc />
         public string Designation { get; set; }
+
+        /// <inheritdoc />
         public int Priority { get; set; } = 10;
     }
 }

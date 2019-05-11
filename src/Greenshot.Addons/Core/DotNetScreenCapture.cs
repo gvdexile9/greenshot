@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,24 +17,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Windows;
-using System.Windows.Interop;
-using System.Windows.Media.Imaging;
 using Dapplo.Windows.Common.Structs;
-using Dapplo.Windows.Gdi32;
-using Dapplo.Windows.Gdi32.Enums;
-using Dapplo.Windows.Gdi32.SafeHandles;
-using Dapplo.Windows.Gdi32.Structs;
-using Dapplo.Windows.User32;
-
-#endregion
 
 namespace Greenshot.Addons.Core
 {

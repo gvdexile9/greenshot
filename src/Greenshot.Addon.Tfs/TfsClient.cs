@@ -1,6 +1,4 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
+﻿// Greenshot - a free and open source screenshot tool
 // Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
@@ -19,8 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,6 +27,7 @@ using Dapplo.HttpExtensions;
 using Dapplo.HttpExtensions.ContentConverter;
 using Dapplo.HttpExtensions.Factory;
 using Dapplo.HttpExtensions.JsonNet;
+using Greenshot.Addon.Tfs.Configuration;
 using Greenshot.Addon.Tfs.Entities;
 using Greenshot.Addons.Core;
 using Greenshot.Addons.Extensions;
@@ -40,7 +37,7 @@ using Newtonsoft.Json.Linq;
 namespace Greenshot.Addon.Tfs
 {
     /// <summary>
-    /// This capsulates the TFS api calls
+    /// This encapsulates the TFS api calls
     /// </summary>
     public class TfsClient
     {
@@ -48,6 +45,12 @@ namespace Greenshot.Addon.Tfs
         private readonly ITfsConfiguration _tfsConfiguration;
         private readonly HttpBehaviour _tfsHttpBehaviour;
 
+        /// <summary>
+        /// DI constructor
+        /// </summary>
+        /// <param name="coreConfiguration">ICoreConfiguration</param>
+        /// <param name="tfsConfiguration">ITfsConfiguration</param>
+        /// <param name="httpConfiguration">IHttpConfiguration</param>
         public TfsClient(
             ICoreConfiguration coreConfiguration,
             ITfsConfiguration tfsConfiguration,
@@ -72,9 +75,20 @@ namespace Greenshot.Addon.Tfs
 
         }
 
+        /// <summary>
+        /// Is it possible to update?
+        /// </summary>
         public bool CanUpdate => _tfsConfiguration.TfsUri != null && !string.IsNullOrEmpty(_tfsConfiguration.ApiKey);
+
+        /// <summary>
+        /// The work items for this client
+        /// </summary>
         public IDictionary<long, WorkItem> WorkItems { get; } = new Dictionary<long, WorkItem>();
 
+        /// <summary>
+        /// Request a work item update
+        /// </summary>
+        /// <returns></returns>
         public async Task UpdateWorkItems()
         {
             if (!CanUpdate)
@@ -88,7 +102,7 @@ namespace Greenshot.Addon.Tfs
             }
         }
         /// <summary>
-        /// Retrieve the own workitems
+        /// Retrieve the own work items
         /// </summary>
         /// <returns>WorkItemList</returns>
         public async Task<WorkItemList> GetOwnWorkitems()

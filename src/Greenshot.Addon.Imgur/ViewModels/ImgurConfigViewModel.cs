@@ -1,6 +1,4 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
+﻿// Greenshot - a free and open source screenshot tool
 // Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
@@ -19,8 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 using System;
 using System.Reactive.Disposables;
 using Autofac.Features.OwnedInstances;
@@ -35,7 +31,7 @@ using Greenshot.Addons.ViewModels;
 namespace Greenshot.Addon.Imgur.ViewModels
 {
     /// <summary>
-    /// The imgure config VM
+    /// The imgur config view model
     /// </summary>
     public sealed class ImgurConfigViewModel : SimpleConfigScreen
     {
@@ -43,17 +39,36 @@ namespace Greenshot.Addon.Imgur.ViewModels
         ///     Here all disposables are registered, so we can clean the up
         /// </summary>
         private CompositeDisposable _disposables;
+        private Func<Owned<ImgurHistoryViewModel>> ImgurHistoryViewModelFactory { get; }
 
+        /// <summary>
+        /// Provide IImgurConfiguration to the view
+        /// </summary>
         public IImgurConfiguration ImgurConfiguration { get; }
 
+        /// <summary>
+        /// Provide IImgurLanguage to the view
+        /// </summary>
         public IImgurLanguage ImgurLanguage { get; }
 
+        /// <summary>
+        /// Provide IWindowManager to the view
+        /// </summary>
         public IWindowManager WindowManager { get; }
 
-        public Func<Owned<ImgurHistoryViewModel>> ImgurHistoryViewModelFactory { get;}
-
+        /// <summary>
+        /// Provide FileConfigPartViewModel to the view
+        /// </summary>
         public FileConfigPartViewModel FileConfigPartViewModel { get; }
 
+        /// <summary>
+        /// DI constructor
+        /// </summary>
+        /// <param name="imgurConfiguration">IImgurConfiguration</param>
+        /// <param name="imgurLanguage">IImgurLanguage</param>
+        /// <param name="windowManager">IWindowManager</param>
+        /// <param name="imgurHistoryViewModelFactory">Func</param>
+        /// <param name="fileConfigPartViewModel">FileConfigPartViewModel</param>
         public ImgurConfigViewModel(
             IImgurConfiguration imgurConfiguration,
             IImgurLanguage imgurLanguage ,
@@ -68,6 +83,8 @@ namespace Greenshot.Addon.Imgur.ViewModels
             ImgurHistoryViewModelFactory = imgurHistoryViewModelFactory;
             FileConfigPartViewModel = fileConfigPartViewModel;
         }
+
+        /// <inheritdoc />
         public override void Initialize(IConfig config)
         {
             // Make sure the destination settings are shown
@@ -91,12 +108,16 @@ namespace Greenshot.Addon.Imgur.ViewModels
             base.Initialize(config);
         }
 
+        /// <inheritdoc />
         protected override void OnDeactivate(bool close)
         {
             _disposables.Dispose();
             base.OnDeactivate(close);
         }
 
+        /// <summary>
+        /// Show the Imgur history view model
+        /// </summary>
         public void ShowHistory()
         {
             using (var imgurHistoryViewModel = ImgurHistoryViewModelFactory())
@@ -105,8 +126,14 @@ namespace Greenshot.Addon.Imgur.ViewModels
             }
         }
 
+        /// <summary>
+        /// Can the credentials be reset?
+        /// </summary>
         public bool CanResetCredentials => !ImgurConfiguration.AnonymousAccess && ImgurConfiguration.HasToken();
 
+        /// <summary>
+        /// Reset the credentials
+        /// </summary>
         public void ResetCredentials()
         {
             ImgurConfiguration.ResetToken();

@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,8 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -36,7 +32,12 @@ namespace Greenshot.Core.Templates
     /// </summary>
     public class CroppedTemplate : ITemplate<BitmapSource>
     {
+        /// <summary>
+        /// Specify if the mouse cursor should be displayed
+        /// </summary>
         public bool DisplayMouse { get; set; } = true;
+
+        /// <inheritdoc/>
         public FrameworkElement Apply(ICapture<BitmapSource> capture)
         {
             var width = (int)(capture.CropRect.Width + 0.5);
@@ -66,7 +67,7 @@ namespace Greenshot.Core.Templates
             foreach (var captureCaptureElement in capture.CaptureElements)
             {
                 // Skip mouse cursor
-                if (captureCaptureElement.ElementType == CaptureElementType.Cursor && DisplayMouse)
+                if (captureCaptureElement.ElementType == CaptureElementType.Cursor && !DisplayMouse)
                 {
                     continue;
                 }

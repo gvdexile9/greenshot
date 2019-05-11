@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,22 +17,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
-using System.Drawing;
 using System.Drawing.Drawing2D;
-
-#endregion
 
 namespace Greenshot.Gfx.Effects
 {
 	/// <summary>
-	///     ResizeEffect
+	/// This effect resizes the bitmap
 	/// </summary>
 	public class ResizeEffect : IEffect
 	{
+        /// <summary>
+        /// The constructor which takes the new width and height and if the aspect ratio should be maintained
+        /// </summary>
+        /// <param name="width">int</param>
+        /// <param name="height">int</param>
+        /// <param name="maintainAspectRatio">bool</param>
 		public ResizeEffect(int width, int height, bool maintainAspectRatio)
 		{
 			Width = width;
@@ -42,13 +39,23 @@ namespace Greenshot.Gfx.Effects
 			MaintainAspectRatio = maintainAspectRatio;
 		}
 
+        /// <summary>
+        /// The new width
+        /// </summary>
 		public int Width { get; set; }
 
+        /// <summary>
+        /// The new height
+        /// </summary>
 		public int Height { get; set; }
 
+        /// <summary>
+        /// Do we need to maintain the aspect ration
+        /// </summary>
 		public bool MaintainAspectRatio { get; set; }
 
-		public Bitmap Apply(Bitmap sourceBitmap, Matrix matrix)
+        /// <inheritdoc />
+		public IBitmapWithNativeSupport Apply(IBitmapWithNativeSupport sourceBitmap, Matrix matrix)
 		{
 			return sourceBitmap.Resize(MaintainAspectRatio, Width, Height, matrix);
 		}

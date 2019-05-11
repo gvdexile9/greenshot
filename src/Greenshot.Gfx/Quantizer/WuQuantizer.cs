@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,10 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,8 +24,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using Dapplo.Log;
 using Greenshot.Gfx.FastBitmap;
-
-#endregion
 
 namespace Greenshot.Gfx.Quantizer
 {
@@ -57,19 +49,23 @@ namespace Greenshot.Gfx.Quantizer
 		private readonly long[,,] _momentsBlue;
 		private readonly long[,,] _momentsGreen;
 		private readonly long[,,] _momentsRed;
-		private readonly Bitmap _sourceBitmap;
+		private readonly IBitmapWithNativeSupport _sourceBitmap;
 
 		private readonly long[,,] _weights;
 		private int[] _blues;
 		private int[] _greens;
 
 		private int[] _reds;
-		private Bitmap _resultBitmap;
+		private IBitmapWithNativeSupport _resultBitmap;
 		private int[] _sums;
 
 		private byte[] _tag;
 
-		public WuQuantizer(Bitmap sourceBitmap)
+        /// <summary>
+        /// The constructor for the WuQauntizer
+        /// </summary>
+        /// <param name="sourceBitmap"></param>
+		public WuQuantizer(IBitmapWithNativeSupport sourceBitmap)
 		{
 			_sourceBitmap = sourceBitmap;
 			// Make sure the color count variables are reset
@@ -111,16 +107,15 @@ namespace Greenshot.Gfx.Quantizer
 			// Use a bitmap to store the initial match, which is just as good as an array and saves us 2x the storage
 			using (var sourceFastBitmap = FastBitmapFactory.Create(sourceBitmap))
 			{
-				var sourceFastBitmapWithBlend = sourceFastBitmap as IFastBitmapWithBlend;
-				sourceFastBitmap.Lock();
-				using (var destinationFastBitmap = FastBitmapFactory.CreateEmpty(sourceBitmap.Size, PixelFormat.Format8bppIndexed, Color.White) as FastChunkyBitmap)
+                sourceFastBitmap.Lock();
+                using (var destinationFastBitmap = FastBitmapFactory.CreateEmpty(sourceBitmap.Size, PixelFormat.Format8bppIndexed, Color.White) as FastChunkyBitmap)
 				{
 					for (var y = 0; y < sourceFastBitmap.Height; y++)
 					{
 						for (var x = 0; x < sourceFastBitmap.Width; x++)
 						{
 							Color color;
-							if (sourceFastBitmapWithBlend == null)
+							if (!(sourceFastBitmap is IFastBitmapWithBlend sourceFastBitmapWithBlend))
 							{
 								color = sourceFastBitmap.GetColorAt(x, y);
 							}
@@ -158,11 +153,17 @@ namespace Greenshot.Gfx.Quantizer
 			}
 		}
 
+        /// <inheritdoc/>
 		public void Dispose()
 		{
 			Dispose(true);
 		}
 
+		
+		/// <summary>
+		/// Dispose implementation
+		/// </summary>
+		/// <param name="disposing">bool</param>
 		protected virtual void Dispose(bool disposing)
 		{
 		    if (!disposing)
@@ -179,6 +180,10 @@ namespace Greenshot.Gfx.Quantizer
 		    _resultBitmap = null;
 		}
 
+        /// <summary>
+        /// Returns the number of colors
+        /// </summary>
+        /// <returns>int</returns>
 		public int GetColorCount()
 		{
 			return _colorCount;
@@ -188,7 +193,7 @@ namespace Greenshot.Gfx.Quantizer
 		///     Reindex the 24/32 BPP (A)RGB image to a 8BPP
 		/// </summary>
 		/// <returns>Bitmap</returns>
-		public Bitmap SimpleReindex()
+		public IBitmapWithNativeSupport SimpleReindex()
 		{
 			var colors = new List<Color>();
 			var lookup = new Dictionary<Color, byte>();
@@ -197,15 +202,13 @@ namespace Greenshot.Gfx.Quantizer
 				bbbDest.Lock();
 				using (var bbbSrc = FastBitmapFactory.Create(_sourceBitmap))
 				{
-					var bbbSrcBlend = bbbSrc as IFastBitmapWithBlend;
-
-					bbbSrc.Lock();
-					for (var y = 0; y < bbbSrc.Height; y++)
+                    bbbSrc.Lock();
+                    for (var y = 0; y < bbbSrc.Height; y++)
 					{
 						for (var x = 0; x < bbbSrc.Width; x++)
 						{
 							Color color;
-							if (bbbSrcBlend != null)
+							if (bbbSrc is IFastBitmapWithBlend bbbSrcBlend)
 							{
 								color = bbbSrcBlend.GetBlendedColorAt(x, y);
 							}
@@ -231,7 +234,7 @@ namespace Greenshot.Gfx.Quantizer
 			}
 
 			// generates palette
-			var imagePalette = _resultBitmap.Palette;
+			var imagePalette = _resultBitmap.NativeBitmap.Palette;
 			var entries = imagePalette.Entries;
 			for (var paletteIndex = 0; paletteIndex < 256; paletteIndex++)
 			{
@@ -244,7 +247,7 @@ namespace Greenshot.Gfx.Quantizer
 					entries[paletteIndex] = Color.Black;
 				}
 			}
-			_resultBitmap.Palette = imagePalette;
+			_resultBitmap.NativeBitmap.Palette = imagePalette;
 
 			// Make sure the bitmap is not disposed, as we return it.
 			var tmpBitmap = _resultBitmap;
@@ -255,7 +258,7 @@ namespace Greenshot.Gfx.Quantizer
 		/// <summary>
 		///     Get the image
 		/// </summary>
-		public Bitmap GetQuantizedImage(int allowedColorCount = 256)
+		public IBitmapWithNativeSupport GetQuantizedImage(int allowedColorCount = 256)
 		{
 			if (allowedColorCount > 256)
 			{
@@ -316,7 +319,7 @@ namespace Greenshot.Gfx.Quantizer
 
 			_tag = new byte[Maxvolume];
 
-			// precalculates lookup tables
+			// pre-calculates lookup tables
 			for (var k = 0; k < allowedColorCount; ++k)
 			{
 				Mark(_cubes[k], k, _tag);
@@ -348,14 +351,13 @@ namespace Greenshot.Gfx.Quantizer
 			{
 				using (var src = FastBitmapFactory.Create(_sourceBitmap))
 				{
-					var srcBlend = src as IFastBitmapWithBlend;
-					var lookup = new Dictionary<Color, byte>();
-					for (var y = 0; y < src.Height; y++)
+                    var lookup = new Dictionary<Color, byte>();
+                    for (var y = 0; y < src.Height; y++)
 					{
 						for (var x = 0; x < src.Width; x++)
 						{
 							Color color;
-							if (srcBlend != null)
+							if (src is IFastBitmapWithBlend srcBlend)
 							{
 								// WithoutAlpha, this makes it possible to ignore the alpha
 								color = srcBlend.GetBlendedColorAt(x, y);
@@ -414,7 +416,7 @@ namespace Greenshot.Gfx.Quantizer
 
 
 			// generates palette
-			var imagePalette = _resultBitmap.Palette;
+			var imagePalette = _resultBitmap.NativeBitmap.Palette;
 			var entries = imagePalette.Entries;
 			for (var paletteIndex = 0; paletteIndex < allowedColorCount; paletteIndex++)
 			{
@@ -427,7 +429,7 @@ namespace Greenshot.Gfx.Quantizer
 
 				entries[paletteIndex] = Color.FromArgb(255, _reds[paletteIndex], _greens[paletteIndex], _blues[paletteIndex]);
 			}
-			_resultBitmap.Palette = imagePalette;
+			_resultBitmap.NativeBitmap.Palette = imagePalette;
 
 			// Make sure the bitmap is not disposed, as we return it.
 			var tmpBitmap = _resultBitmap;

@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,16 +17,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using Dapplo.Windows.Common.Structs;
-
-#endregion
 
 namespace Greenshot.Gfx.FastBitmap
 {
@@ -41,9 +33,14 @@ namespace Greenshot.Gfx.FastBitmap
 		// Used for indexed images
 		private readonly Color[] _colorEntries;
 
-		public FastChunkyBitmap(Bitmap source, NativeRect? area = null) : base(source, area)
+        /// <summary>
+        /// This contructor creates a FastBitmap for the specified source
+        /// </summary>
+        /// <param name="source">IBitmapWithNativeSupport</param>
+        /// <param name="area">NativeRect</param>
+		public FastChunkyBitmap(IBitmapWithNativeSupport source, NativeRect? area = null) : base(source, area)
 		{
-			_colorEntries = Bitmap.Palette.Entries;
+			_colorEntries = Bitmap.NativeBitmap.Palette.Entries;
 		}
 
 		/// <inheritdoc/>

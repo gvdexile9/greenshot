@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,13 +17,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region using
-
 using System.Drawing;
-
-#endregion
 
 namespace Greenshot.Addons.Animation
 {
@@ -34,16 +26,21 @@ namespace Greenshot.Addons.Animation
 	/// </summary>
 	public class ColorAnimator : AnimatorBase<Color>
 	{
+        /// <summary>
+        /// Create a color animator
+        /// </summary>
+        /// <param name="first">Color to start with</param>
+        /// <param name="last">Color to end with</param>
+        /// <param name="frames">int amount of frames to animate</param>
+        /// <param name="easingType">EasingTypes, the easing type to use</param>
+        /// <param name="easingMode">EasingModes, the easing mode to use</param>
 		public ColorAnimator(Color first, Color last, int frames, EasingTypes easingType = EasingTypes.Linear, EasingModes easingMode = EasingModes.EaseIn)
 			: base(first, last, frames, easingType, easingMode)
 		{
 		}
 
-		/// <summary>
-		///     Calculate the next frame values
-		/// </summary>
-		/// <returns>Color</returns>
-		public override Color Next()
+        /// <inheritdoc />
+        public override Color Next()
 		{
 			if (!NextFrame)
 			{

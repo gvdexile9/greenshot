@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,8 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Runtime.CompilerServices;
@@ -29,13 +25,16 @@ using Greenshot.Gfx.FastBitmap;
 
 namespace Greenshot.Gfx
 {
+    /// <summary>
+    /// This is the scale X implementation using IFastBitmap
+    /// </summary>
     public static class ScaleX
     {
         /// <summary>
         ///     Use "Scale2x" algorithm to produce bitmap from the original.
         /// </summary>
         /// <param name="original">Bitmap to scale 2x</param>
-        public static Bitmap Scale2X(this Bitmap original)
+        public static IBitmapWithNativeSupport Scale2X(IBitmapWithNativeSupport original)
         {
             using (var source = (IFastBitmapWithClip)FastBitmapFactory.Create(original))
             using (var destination = (IFastBitmapWithClip)FastBitmapFactory.CreateEmpty(new Size(original.Width << 1, original.Height << 1), original.PixelFormat))
@@ -94,7 +93,7 @@ namespace Greenshot.Gfx
         /// </summary>
         /// <param name="original">Bitmap to scale 3x</param>
         [SuppressMessage("ReSharper", "AccessToDisposedClosure")]
-        public static Bitmap Scale3X(this Bitmap original)
+        public static IBitmapWithNativeSupport Scale3X(IBitmapWithNativeSupport original)
         {
             using (var source = (IFastBitmapWithClip)FastBitmapFactory.Create(original))
             using (var destination = (IFastBitmapWithClip)FastBitmapFactory.CreateEmpty(new Size(original.Width * 3, original.Height * 3), original.PixelFormat))

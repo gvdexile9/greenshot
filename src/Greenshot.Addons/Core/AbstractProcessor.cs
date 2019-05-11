@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,22 +17,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using Greenshot.Addons.Interfaces;
-
-#endregion
 
 namespace Greenshot.Addons.Core
 {
-	/// <summary>
-	///     Description of AbstractProcessor.
-	/// </summary>
-	public abstract class AbstractProcessor : IProcessor
+    /// <summary>
+    /// This implements a basic IProcessor
+    /// </summary>
+    public abstract class AbstractProcessor : IProcessor
 	{
-		public virtual int CompareTo(object obj)
+        /// <inheritdoc />
+        public virtual int CompareTo(object obj)
 		{
             if (!(obj is IProcessor other))
             {
@@ -47,21 +40,31 @@ namespace Greenshot.Addons.Core
 			return Priority - other.Priority;
 		}
 
-		public abstract string Designation { get; }
+        /// <inheritdoc />
+        public abstract string Designation { get; }
 
-		public abstract string Description { get; }
+        /// <inheritdoc />
+        public abstract string Description { get; }
 
-		public virtual int Priority => 10;
+        /// <inheritdoc />
+        public virtual int Priority => 10;
 
-	    public void Dispose()
+        /// <inheritdoc />
+        public void Dispose()
 		{
 			Dispose(true);
 		}
 
-		public virtual bool IsActive => true;
+        /// <inheritdoc />
+        public virtual bool IsActive => true;
 
-	    public abstract bool ProcessCapture(ISurface surface, ICaptureDetails captureDetails);
+        /// <inheritdoc />
+        public abstract bool ProcessCapture(ISurface surface, ICaptureDetails captureDetails);
 
+		/// <summary>
+		/// Override this to have dispose functionality
+		/// </summary>
+		/// <param name="disposing"></param>
 		protected virtual void Dispose(bool disposing)
 		{
 			//if (disposing) {}

@@ -3,7 +3,8 @@
   <PropertyGroup>
     <RootNamespace>Greenshot.Addon.Office</RootNamespace>
     <AssemblyName>Greenshot.Addon.Office</AssemblyName>
-    <TargetFrameworks>net472;netcoreapp3.0</TargetFrameworks>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,25 +12,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  
-  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
-	<Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Caching" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Windows" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Greenshot.Addons\Greenshot.Addons.csproj" />
     <ProjectReference Include="..\Greenshot.Core\Greenshot.Core.csproj" />
@@ -37,10 +19,10 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="AutoProperties.Fody" Version="1.20.0" />
-    <PackageReference Include="Dapplo.CaliburnMicro.Configuration" Version="1.2.21" />
-    <PackageReference Include="Dapplo.CaliburnMicro.Translations" Version="1.2.21" />
-    <PackageReference Include="Dapplo.Windows.Clipboard" Version="0.8.17" />
+    <PackageReference Include="AutoProperties.Fody" Version="1.21.0" />
+    <PackageReference Include="Dapplo.CaliburnMicro.Configuration" Version="1.2.26" />
+    <PackageReference Include="Dapplo.CaliburnMicro.Translations" Version="1.2.26" />
+    <PackageReference Include="Dapplo.Windows.Clipboard" Version="0.8.28" />
     <PackageReference Include="Interop.Microsoft.Office.Interop.OneNote" Version="1.1.0" />
     <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1000" />
     <PackageReference Include="Microsoft.Office.Interop.Outlook" Version="15.0.4797.1003" />
@@ -50,7 +32,7 @@
     <PackageReference Include="Unofficial.Microsoft.mshtml" Version="7.0.3300">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </PackageReference>
-    <PackageReference Include="Fody" Version="4.0.2">
+    <PackageReference Include="Fody" Version="4.2.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>

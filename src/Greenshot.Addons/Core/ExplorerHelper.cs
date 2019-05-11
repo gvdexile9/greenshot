@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,15 +17,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Diagnostics;
 using System.IO;
-
-#endregion
 
 namespace Greenshot.Addons.Core
 {
@@ -48,12 +40,19 @@ namespace Greenshot.Addons.Core
 			{
 				return false;
 			}
+            
+            
 			try
 			{
 				// Check if path is a directory
 				if (Directory.Exists(path))
 				{
-					using (Process.Start(path))
+                    var processStartInfo = new ProcessStartInfo(path)
+                    {
+                        CreateNoWindow = true,
+                        UseShellExecute = true
+                    };
+					using (Process.Start(processStartInfo))
 					{
 						return true;
 					}
@@ -61,8 +60,14 @@ namespace Greenshot.Addons.Core
 				// Check if path is a file
 				if (File.Exists(path))
 				{
+                    var processStartInfo = new ProcessStartInfo("explorer.exe")
+                    {
+                        Arguments = $"/select,\"{path}\"",
+                        CreateNoWindow = true,
+                        UseShellExecute = true
+                    };
 					// Start the explorer process and select the file
-					using (var explorer = Process.Start("explorer.exe", $"/select,\"{path}\""))
+					using (var explorer = Process.Start(processStartInfo))
 					{
 						explorer?.WaitForInputIdle(500);
 						return true;

@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,13 +17,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System.Collections.Generic;
-
-#endregion
 
 namespace Greenshot.Addons.Interfaces.Drawing
 {
@@ -37,13 +29,48 @@ namespace Greenshot.Addons.Interfaces.Drawing
 	/// </summary>
 	public interface IFieldHolder
 	{
+		/// <summary>
+		/// This event is fired when the field changes
+		/// </summary>
 		event FieldChangedEventHandler FieldChanged;
 
-		void AddField(IField field);
+        /// <summary>
+        /// Add a field to the holder
+        /// </summary>
+        /// <param name="field">IField</param>
+        void AddField(IField field);
+
+		/// <summary>
+		/// Remove the specified field from this holder
+		/// </summary>
+		/// <param name="field"></param>
 		void RemoveField(IField field);
+
+		/// <summary>
+        /// Get all the fields
+        /// </summary>
+        /// <returns></returns>
 		IList<IField> GetFields();
+
+        /// <summary>
+        /// Get the field with the specified type
+        /// </summary>
+        /// <param name="fieldType">IFieldType</param>
+        /// <returns>IField</returns>
 		IField GetField(IFieldType fieldType);
+
+        /// <summary>
+        /// Does this holder have a certain field?
+        /// </summary>
+        /// <param name="fieldType">IFieldType</param>
+        /// <returns>bool</returns>
 		bool HasField(IFieldType fieldType);
+
+        /// <summary>
+        /// Set the value for a certain field type
+        /// </summary>
+        /// <param name="fieldType">IFieldType</param>
+        /// <param name="value">object</param>
 		void SetFieldValue(IFieldType fieldType, object value);
 	}
 }

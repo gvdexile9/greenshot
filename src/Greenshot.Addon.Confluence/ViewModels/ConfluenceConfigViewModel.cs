@@ -1,6 +1,4 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
+﻿// Greenshot - a free and open source screenshot tool
 // Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
@@ -19,8 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 using System.Collections.Generic;
 using System.Reactive.Disposables;
 using Dapplo.CaliburnMicro.Configuration;
@@ -33,6 +29,9 @@ using Greenshot.Core.Enums;
 
 namespace Greenshot.Addon.Confluence.ViewModels
 {
+    /// <summary>
+    /// View model for the confluence configuration
+    /// </summary>
     public sealed class ConfluenceConfigViewModel : SimpleConfigScreen
     {
         /// <summary>
@@ -54,6 +53,7 @@ namespace Greenshot.Addon.Confluence.ViewModels
             GreenshotLanguage = greenshotLanguage;
         }
 
+        /// <inheritdoc />
         public override void Initialize(IConfig config)
         {
             // Prepare disposables
@@ -73,6 +73,7 @@ namespace Greenshot.Addon.Confluence.ViewModels
             base.Initialize(config);
         }
 
+        /// <inheritdoc />
         protected override void OnDeactivate(bool close)
         {
             _disposables.Dispose();

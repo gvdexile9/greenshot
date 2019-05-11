@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,19 +17,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System.ComponentModel;
 using System.Windows.Forms;
 
-#endregion
-
 namespace Greenshot.Addons.Controls
 {
+    /// <summary>
+    /// This is a button which takes it translation via the set language key
+    /// </summary>
 	public class GreenshotButton : Button, IGreenshotLanguageBindable
 	{
+        /// <summary>
+        /// The key for the translation to use
+        /// </summary>
 		[Category("Greenshot")]
 		[DefaultValue(null)]
 		[Description("Specifies key of the language file to use when displaying the text.")]

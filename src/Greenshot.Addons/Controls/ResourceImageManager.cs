@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,11 +17,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using Greenshot.Addons.Resources;
 using Greenshot.Gfx;
@@ -36,7 +31,12 @@ namespace Greenshot.Addons.Controls
 	public class ResourceImageManager : IDisposable
 	{
         private readonly Type _resourceType;
-		private readonly IList<Bitmap> _images = new List<Bitmap>();
+		private readonly List<IBitmapWithNativeSupport> _images = new List<IBitmapWithNativeSupport>();
+
+        /// <summary>
+        /// A constructor where one specifies the type which contains the resources
+        /// </summary>
+        /// <param name="resourceType">Type</param>
 		public ResourceImageManager(Type resourceType)
 		{
             _resourceType = resourceType;
@@ -47,7 +47,7 @@ namespace Greenshot.Addons.Controls
 		/// </summary>
 		/// <param name="imageName">string with the name</param>
 		/// <returns>Bitmap</returns>
-		public Bitmap GetIcon(string imageName)
+		public IBitmapWithNativeSupport GetIcon(string imageName)
 		{
 			var bitmap = GreenshotResources.Instance.GetBitmap(imageName, _resourceType);
 			var result = bitmap.ScaleIconForDisplaying(96);
@@ -68,11 +68,15 @@ namespace Greenshot.Addons.Controls
 			}
 		}
 
+        /// <inheritdoc />
 		public void Dispose()
 		{
 			ReleaseUnmanagedResources();
 		}
 
+        /// <summary>
+        /// Destructor
+        /// </summary>
 		~ResourceImageManager()
 		{
 			ReleaseUnmanagedResources();

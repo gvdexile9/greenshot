@@ -1,6 +1,4 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
+﻿// Greenshot - a free and open source screenshot tool
 // Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
@@ -19,8 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 using System.Reactive.Disposables;
 using Dapplo.CaliburnMicro.Configuration;
 using Dapplo.CaliburnMicro.Extensions;
@@ -31,6 +27,9 @@ using Greenshot.Addons.ViewModels;
 
 namespace Greenshot.Addon.Photobucket.ViewModels
 {
+    /// <summary>
+    /// This is the view model for the photobucket config
+    /// </summary>
     public sealed class PhotobucketConfigViewModel : SimpleConfigScreen
     {
         /// <summary>
@@ -38,11 +37,30 @@ namespace Greenshot.Addon.Photobucket.ViewModels
         /// </summary>
         private CompositeDisposable _disposables;
 
+        /// <summary>
+        /// Provide the IPhotobucketConfiguration to the view
+        /// </summary>
         public IPhotobucketConfiguration PhotobucketConfiguration { get; }
+        /// <summary>
+        /// Provide the IPhotobucketLanguage to the view
+        /// </summary>
         public IPhotobucketLanguage PhotobucketLanguage { get; }
+        /// <summary>
+        /// Provide the IGreenshotLanguage to the view
+        /// </summary>
         public IGreenshotLanguage GreenshotLanguage { get; }
+        /// <summary>
+        /// Provide the FileConfigPartViewModel to the view
+        /// </summary>
         public FileConfigPartViewModel FileConfigPartViewModel { get; }
 
+        /// <summary>
+        /// DI constructor
+        /// </summary>
+        /// <param name="photobucketConfiguration">IPhotobucketConfiguration</param>
+        /// <param name="photobucketLanguage">IPhotobucketLanguage</param>
+        /// <param name="greenshotLanguage">IGreenshotLanguage</param>
+        /// <param name="fileConfigPartViewModel">FileConfigPartViewModel</param>
         public PhotobucketConfigViewModel(
             IPhotobucketConfiguration photobucketConfiguration,
             IPhotobucketLanguage photobucketLanguage,
@@ -55,6 +73,7 @@ namespace Greenshot.Addon.Photobucket.ViewModels
             FileConfigPartViewModel = fileConfigPartViewModel;
         }
 
+        /// <inheritdoc />
         public override void Initialize(IConfig config)
         {
             FileConfigPartViewModel.DestinationFileConfiguration = PhotobucketConfiguration;
@@ -76,6 +95,7 @@ namespace Greenshot.Addon.Photobucket.ViewModels
             base.Initialize(config);
         }
 
+        /// <inheritdoc />
         protected override void OnDeactivate(bool close)
         {
             _disposables.Dispose();

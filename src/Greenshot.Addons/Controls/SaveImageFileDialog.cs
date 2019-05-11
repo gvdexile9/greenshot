@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,20 +17,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.IO;
 using System.Windows.Forms;
 using Dapplo.Log;
-using Greenshot.Addons.Config.Impl;
 using Greenshot.Addons.Core;
 using Greenshot.Addons.Interfaces;
 using Greenshot.Core.Enums;
-
-#endregion
 
 namespace Greenshot.Addons.Controls
 {
@@ -47,8 +38,13 @@ namespace Greenshot.Addons.Controls
         private readonly ICaptureDetails _captureDetails;
 		private DirectoryInfo _eagerlyCreatedDirectory;
 		private FilterOption[] _filterOptions;
-		protected SaveFileDialog SaveFileDialog;
+		private SaveFileDialog SaveFileDialog;
 
+        /// <summary>
+        /// DI constructor
+        /// </summary>
+        /// <param name="coreConfiguration">ICoreConfiguration</param>
+        /// <param name="captureDetails">ICaptureDetails</param>
         public SaveImageFileDialog(ICoreConfiguration coreConfiguration, ICaptureDetails captureDetails = null)
 		{
             _coreConfiguration = coreConfiguration;
@@ -117,11 +113,13 @@ namespace Greenshot.Addons.Controls
 			}
 		}
 
+        /// <inheritdoc />
 		public void Dispose()
 		{
 			Dispose(true);
 		}
 
+        /// <inheritdoc />
 		protected virtual void Dispose(bool disposing)
 		{
 			if (disposing)
@@ -205,6 +203,10 @@ namespace Greenshot.Addons.Controls
 			}
 		}
 
+        /// <summary>
+        /// Show the save file dialog
+        /// </summary>
+        /// <returns></returns>
 		public DialogResult ShowDialog()
 		{
 			var ret = SaveFileDialog.ShowDialog();

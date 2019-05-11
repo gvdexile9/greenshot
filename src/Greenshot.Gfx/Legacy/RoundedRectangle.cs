@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,22 +17,17 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Drawing.Drawing2D;
 using Dapplo.Windows.Common.Structs;
 
-#endregion
-
 namespace Greenshot.Gfx.Legacy
 {
-	/// <summary>
-	///     TODO: currently this is only used in the capture form, we might move this code directly to there!
-	/// </summary>
-	public abstract class RoundedRectangle
+    /// <summary>
+    ///     TODO: currently this is only used in the capture form, we might move this code directly to there!
+    /// </summary>
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    public abstract class RoundedRectangle
 	{
 		[Flags]
 		public enum RectangleCorners
@@ -63,8 +56,8 @@ namespace Greenshot.Gfx.Legacy
 			return gp;
 		}
 
-		public static GraphicsPath Create(int x, int y, int width, int height, int radius, RectangleCorners corners)
-		{
+        public static GraphicsPath Create(int x, int y, int width, int height, int radius, RectangleCorners corners)
+        {
 			var xw = x + width;
 			var yh = y + height;
 			var xwr = xw - radius;

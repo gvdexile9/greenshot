@@ -1,6 +1,4 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
+﻿// Greenshot - a free and open source screenshot tool
 // Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
@@ -19,24 +17,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using Dapplo.Config.Ini;
 using Dapplo.HttpExtensions.OAuth;
 using Greenshot.Addons.Core;
 
-#endregion
-
 namespace Greenshot.Addon.OneDrive.Configuration
 {
+    /// <summary>
+    /// The one drive configuration
+    /// </summary>
     [IniSection("OneDrive")]
     [Description("Greenshot OneDrive Addon configuration")]
     public interface IOneDriveConfiguration : IIniSection, IDestinationFileConfiguration, IOAuth2Token
     {
+#pragma warning disable 1591
         [Description("After upload copy OneDrive link to clipboard.")]
         [DefaultValue("true")]
         bool AfterUploadLinkToClipBoard { get; set; }

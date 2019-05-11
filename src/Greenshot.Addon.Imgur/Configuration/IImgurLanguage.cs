@@ -17,20 +17,21 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#region Usings
-
 using System.Diagnostics.CodeAnalysis;
 using Dapplo.Config.Language;
 
-#endregion
-
 namespace Greenshot.Addon.Imgur.Configuration
 {
+	/// <summary>
+	/// Translations for the Imgur add-on
+	/// </summary>
 	[Language("Imgur")]
 	[SuppressMessage("ReSharper", "UnusedMember.Global")]
 	public interface IImgurLanguage : ILanguage
 	{
-		string Cancel { get; }
+#pragma warning disable 1591
+
+        string Cancel { get; }
 
 		string ClearQuestion { get; }
 

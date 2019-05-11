@@ -1,6 +1,6 @@
 /*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -196,11 +196,11 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
                 {
                     HideTextBox();
                 }
-                else if (Selected && Status == EditStatus.DRAWING)
+                else if (Selected && Status == EditStatus.Drawing)
                 {
                     ShowTextBox();
                 }
-                else if (_parent != null && Selected && Status == EditStatus.IDLE && _textBox.Visible)
+                else if (_parent != null && Selected && Status == EditStatus.Idle && _textBox.Visible)
                 {
                     // Fix (workaround) for BUG-1698
                     _parent.KeysLocked = true;

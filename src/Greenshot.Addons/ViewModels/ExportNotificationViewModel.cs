@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -18,8 +16,6 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-#endregion
 
 using System;
 using System.Diagnostics;
@@ -44,6 +40,15 @@ namespace Greenshot.Addons.ViewModels
         private readonly IConfigScreen _configScreen;
         private static readonly LogSource Log = new LogSource();
 
+        /// <summary>
+        /// DI constructor
+        /// </summary>
+        /// <param name="source">IDestination</param>
+        /// <param name="exportInformation">ExportInformation</param>
+        /// <param name="exportedSurface">ISurface</param>
+        /// <param name="windowManager">IWindowManager</param>
+        /// <param name="configViewModel">Config</param>
+        /// <param name="configScreen">IConfigScreen</param>
         public ExportNotificationViewModel(
             IDestination source,
             ExportInformation exportInformation,
@@ -60,20 +65,38 @@ namespace Greenshot.Addons.ViewModels
 
             using (var bitmap = exportedSurface.GetBitmapForExport())
             {
-                ExportBitmapSource = bitmap.ToBitmapSource();
+                ExportBitmapSource = bitmap.NativeBitmap.ToBitmapSource();
             }
         }
 
+        /// <summary>
+        /// The greenshot icon
+        /// </summary>
         public ImageSource GreenshotIcon => GreenshotResources.Instance.GreenshotIconAsBitmapSource();
 
+        /// <summary>
+        /// The export as ImageSource
+        /// </summary>
         public ImageSource ExportBitmapSource { get; }
 
+        /// <summary>
+        /// Which destination exported this?
+        /// </summary>
         public IDestination Source { get; }
 
+        /// <summary>
+        /// Information on the export
+        /// </summary>
         public ExportInformation Information { get; }
 
+        /// <summary>
+        /// Can we configure this?
+        /// </summary>
         public bool CanConfigure => _configScreen != null;
 
+        /// <summary>
+        /// Trigger the configuration
+        /// </summary>
         public void Configure()
         {
             if (!CanConfigure)
@@ -103,7 +126,12 @@ namespace Greenshot.Addons.ViewModels
 
                 if (Information.IsCloudExport)
                 {
-                    Process.Start(Information.Uri);
+                    var processStartInfo = new ProcessStartInfo(Information.Uri)
+                    {
+                        CreateNoWindow = true,
+                        UseShellExecute = true
+                    };
+                    Process.Start(processStartInfo);
                 }
             }
             catch (Exception ex)

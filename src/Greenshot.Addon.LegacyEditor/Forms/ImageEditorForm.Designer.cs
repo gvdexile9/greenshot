@@ -1,6 +1,6 @@
 /*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -172,8 +172,6 @@ namespace Greenshot.Addon.LegacyEditor.Forms {
 			this.blurRadiusUpDown = new ToolStripNumericUpDown();
 			this.brightnessLabel = new GreenshotToolStripLabel();
 			this.brightnessUpDown = new ToolStripNumericUpDown();
-			this.previewQualityLabel = new GreenshotToolStripLabel();
-			this.previewQualityUpDown = new ToolStripNumericUpDown();
 			this.magnificationFactorLabel = new GreenshotToolStripLabel();
 			this.magnificationFactorUpDown = new ToolStripNumericUpDown();
 			this.pixelSizeLabel = new GreenshotToolStripLabel();
@@ -1001,8 +999,6 @@ namespace Greenshot.Addon.LegacyEditor.Forms {
 									this.blurRadiusUpDown,
 									this.brightnessLabel,
 									this.brightnessUpDown,
-									this.previewQualityLabel,
-									this.previewQualityUpDown,
 									this.magnificationFactorLabel,
 									this.magnificationFactorUpDown,
 									this.pixelSizeLabel,
@@ -1026,20 +1022,20 @@ namespace Greenshot.Addon.LegacyEditor.Forms {
 			this.obfuscateModeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.obfuscateModeButton.LanguageKey = "editor.editor_obfuscate_mode";
 			this.obfuscateModeButton.Name = "obfuscateModeButton";
-			this.obfuscateModeButton.SelectedTag = FilterContainer.PreparedFilter.BLUR;
-			this.obfuscateModeButton.Tag = FilterContainer.PreparedFilter.BLUR;
+			this.obfuscateModeButton.SelectedTag = PreparedFilter.Blur;
+			this.obfuscateModeButton.Tag = PreparedFilter.Blur;
 			// 
 			// pixelizeToolStripMenuItem
 			// 
 			this.pixelizeToolStripMenuItem.LanguageKey = "editor.editor_obfuscate_pixelize";
 			this.pixelizeToolStripMenuItem.Name = "pixelizeToolStripMenuItem";
-			this.pixelizeToolStripMenuItem.Tag = FilterContainer.PreparedFilter.PIXELIZE;
+			this.pixelizeToolStripMenuItem.Tag = PreparedFilter.Pixelize;
 			// 
 			// blurToolStripMenuItem
 			// 
 			this.blurToolStripMenuItem.LanguageKey = "editor.editor_obfuscate_blur";
 			this.blurToolStripMenuItem.Name = "blurToolStripMenuItem";
-			this.blurToolStripMenuItem.Tag = FilterContainer.PreparedFilter.BLUR;
+			this.blurToolStripMenuItem.Tag = PreparedFilter.Blur;
 			// 
 			// highlightModeButton
 			// 
@@ -1052,32 +1048,32 @@ namespace Greenshot.Addon.LegacyEditor.Forms {
 			this.highlightModeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.highlightModeButton.LanguageKey = "editor.editor_highlight_mode";
 			this.highlightModeButton.Name = "highlightModeButton";
-			this.highlightModeButton.SelectedTag = FilterContainer.PreparedFilter.TEXT_HIGHTLIGHT;
-			this.highlightModeButton.Tag = FilterContainer.PreparedFilter.TEXT_HIGHTLIGHT;
+			this.highlightModeButton.SelectedTag = PreparedFilter.TextHightlight;
+			this.highlightModeButton.Tag = PreparedFilter.TextHightlight;
 			// 
 			// textHighlightMenuItem
 			// 
 			this.textHighlightMenuItem.LanguageKey = "editor.editor_highlight_text";
 			this.textHighlightMenuItem.Name = "textHighlightMenuItem";
-			this.textHighlightMenuItem.Tag = FilterContainer.PreparedFilter.TEXT_HIGHTLIGHT;
+			this.textHighlightMenuItem.Tag = PreparedFilter.TextHightlight;
 			// 
 			// areaHighlightMenuItem
 			// 
 			this.areaHighlightMenuItem.LanguageKey = "editor.editor_highlight_area";
 			this.areaHighlightMenuItem.Name = "areaHighlightMenuItem";
-			this.areaHighlightMenuItem.Tag = FilterContainer.PreparedFilter.AREA_HIGHLIGHT;
+			this.areaHighlightMenuItem.Tag = PreparedFilter.AreaHighlight;
 			// 
 			// grayscaleHighlightMenuItem
 			// 
 			this.grayscaleHighlightMenuItem.LanguageKey = "editor.editor_highlight_grayscale";
 			this.grayscaleHighlightMenuItem.Name = "grayscaleHighlightMenuItem";
-			this.grayscaleHighlightMenuItem.Tag = FilterContainer.PreparedFilter.GRAYSCALE;
+			this.grayscaleHighlightMenuItem.Tag = PreparedFilter.Grayscale;
 			// 
 			// magnifyMenuItem
 			// 
 			this.magnifyMenuItem.LanguageKey = "editor.editor_highlight_magnify";
 			this.magnifyMenuItem.Name = "magnifyMenuItem";
-			this.magnifyMenuItem.Tag = FilterContainer.PreparedFilter.MAGNIFICATION;
+			this.magnifyMenuItem.Tag = PreparedFilter.Magnification;
 			// 
 			// btnFillColor
 			// 
@@ -1312,45 +1308,11 @@ namespace Greenshot.Addon.LegacyEditor.Forms {
 			this.brightnessUpDown.GotFocus += new System.EventHandler(this.ToolBarFocusableElementGotFocus);
 			this.brightnessUpDown.LostFocus += new System.EventHandler(this.ToolBarFocusableElementLostFocus);
 			// 
-			// previewQualityLabel
-			// 
-			this.previewQualityLabel.LanguageKey = "editor.editor_preview_quality";
-			this.previewQualityLabel.Name = "previewQualityLabel";
-			this.previewQualityLabel.Text = "Preview quality";
-			// 
-			// previewQualityUpDown
-			// 
-			this.previewQualityUpDown.DecimalPlaces = 0;
-			this.previewQualityUpDown.Increment = new decimal(new int[] {
-									10,
-									0,
-									0,
-									0});
-			this.previewQualityUpDown.Maximum = new decimal(new int[] {
-									100,
-									0,
-									0,
-									0});
-			this.previewQualityUpDown.Minimum = new decimal(new int[] {
-									10,
-									0,
-									0,
-									0});
-			this.previewQualityUpDown.Name = "previewQualityUpDown";
-			this.previewQualityUpDown.Text = "50";
-			this.previewQualityUpDown.Value = new decimal(new int[] {
-									50,
-									0,
-									0,
-									0});
-			this.previewQualityUpDown.GotFocus += new System.EventHandler(this.ToolBarFocusableElementGotFocus);
-			this.previewQualityUpDown.LostFocus += new System.EventHandler(this.ToolBarFocusableElementLostFocus);
-			// 
 			// magnificationFactorLabel
 			// 
 			this.magnificationFactorLabel.LanguageKey = "editor.editor_magnification_factor";
 			this.magnificationFactorLabel.Name = "magnificationFactorLabel";
-			this.magnificationFactorLabel.Tag = FilterContainer.PreparedFilter.MAGNIFICATION;
+			this.magnificationFactorLabel.Tag = PreparedFilter.Magnification;
 			// 
 			// magnificationFactorUpDown
 			// 
@@ -1638,8 +1600,6 @@ namespace Greenshot.Addon.LegacyEditor.Forms {
 		private GreenshotToolStripLabel pixelSizeLabel;
 		private ToolStripNumericUpDown magnificationFactorUpDown;
 		private GreenshotToolStripLabel magnificationFactorLabel;
-		private ToolStripNumericUpDown previewQualityUpDown;
-		private GreenshotToolStripLabel previewQualityLabel;
 		private ToolStripNumericUpDown blurRadiusUpDown;
 		private GreenshotToolStripLabel blurRadiusLabel;
 		private ToolStripEx propertiesToolStrip;

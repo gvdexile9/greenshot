@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,16 +17,34 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 namespace Greenshot.Core.Enums
 {
+    /// <summary>
+    /// These are the possible ways to capture a window
+    /// </summary>
 	public enum WindowCaptureModes
 	{
+        /// <summary>
+        /// USe the screen
+        /// </summary>
 		Screen,
+        /// <summary>
+        /// Use GDI "print"
+        /// </summary>
 		Gdi,
+        /// <summary>
+        /// Use Aero to clone the window and the screen to capture.
+        /// This mode will remove transparency
+        /// </summary>
 		Aero,
+        /// <summary>
+        /// Use Aero to clone the window and the screen to capture.
+        /// This mode will maintain transparency
+        /// </summary>
 		AeroTransparent,
+        /// <summary>
+        /// Automatically select the modus
+        /// </summary>
 		Auto
 	}
 }

@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,19 +17,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
-
-#endregion
 
 namespace Greenshot.Addons.Core
 {
+	/// <summary>
+	/// Extensions for helping with enumerations
+	/// </summary>
 	public static class EnumerationExtensions
 	{
-		public static bool Has<T>(this Enum type, T value)
+        /// <summary>
+        /// Check if a value is in an enum
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="value"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>bool</returns>
+        public static bool Has<T>(this Enum type, T value)
 		{
 			var underlyingType = Enum.GetUnderlyingType(value.GetType());
 			try

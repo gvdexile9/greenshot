@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,27 +17,14 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System.Runtime.InteropServices;
-
-#endregion
+#pragma warning disable 1591
 
 namespace Greenshot.Addon.InternetExplorer.InternetExplorerInterop
 {
-	// IWebBrowser: EAB22AC1-30C1-11CF-A7EB-0000C05BAE0B
-//	[ComVisible(true), ComImport(), Guid("D30C1661-CDAF-11D0-8A3E-00C04FC9E26E"),
-//	 TypeLibType(TypeLibTypeFlags.FDual),
-//	 InterfaceTypeAttribute(ComInterfaceType.InterfaceIsIDispatch)]
-//	public interface IWebBrowser2  {
-//		[DispId(203)]
-//		object Document {
-//			[return: MarshalAs(UnmanagedType.IDispatch)]
-//			get;
-//		}
-//	}
+    /// <summary>
+    /// The IWebBrowser2 is used to communicate and automate Internet Explorer
+    /// </summary>
 	[ComImport]
 	[TypeLibType(TypeLibTypeFlags.FOleAutomation |
 	             TypeLibTypeFlags.FDual |

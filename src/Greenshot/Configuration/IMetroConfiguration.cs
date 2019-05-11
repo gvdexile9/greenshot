@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,20 +17,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 using System.ComponentModel;
 using Dapplo.CaliburnMicro.Metro.Configuration;
 using Dapplo.Config.Ini;
 
 namespace Greenshot.Configuration
 {
+    /// <summary>
+    /// This specifies the configuration for MahApps.Metro
+    /// </summary>
     [IniSection("Metro")]
     public interface IMetroConfiguration : IIniSection, IMetroUiConfiguration
     {
+        /// <inheritdoc />
         [DefaultValue("Light")]
         new string Theme { get; set; }
 
+        /// <inheritdoc />
         [DefaultValue("Olive")]
         new string ThemeColor{ get; set; }
     }

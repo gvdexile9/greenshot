@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,19 +17,19 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 using System;
 using System.Collections.Generic;
 using System.Reactive.Disposables;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Autofac.Features.OwnedInstances;
-using Caliburn.Micro;
 using Dapplo.CaliburnMicro;
 using Dapplo.CaliburnMicro.Configuration;
 using Dapplo.CaliburnMicro.Extensions;
+using Dapplo.Config.Language;
 using Greenshot.Addons;
+using Greenshot.Addons.Core;
 using Greenshot.Configuration;
 using Greenshot.Ui.Notifications.ViewModels;
 using MahApps.Metro.IconPacks;
@@ -44,8 +42,6 @@ namespace Greenshot.Ui.Configuration.ViewModels
     /// </summary>
     public sealed class ConfigViewModel : Config<IConfigScreen>, IHaveIcon
     {
-        private readonly IEventAggregator _eventAggregator;
-
         /// <summary>
         ///     Here all disposables are registered, so we can clean the up
         /// </summary>
@@ -67,14 +63,14 @@ namespace Greenshot.Ui.Configuration.ViewModels
         public IConfigTranslations ConfigTranslations { get; }
 
         public ConfigViewModel(
+            ICoreConfiguration coreConfiguration,
             IEnumerable<Lazy<IConfigScreen>> configScreens,
             IGreenshotLanguage greenshotLanguage,
             IConfigTranslations configTranslations,
-            IEventAggregator eventAggregator,
+            LanguageContainer languageContainer,
             Func<Owned<UpdateNotificationViewModel>> updateNotificationViewModelFactory
             )
         {
-            _eventAggregator = eventAggregator;
             ConfigScreens = configScreens;
             GreenshotLanguage = greenshotLanguage;
             ConfigTranslations = configTranslations;
@@ -82,9 +78,8 @@ namespace Greenshot.Ui.Configuration.ViewModels
             // automatically update the DisplayName
             GreenshotLanguage.CreateDisplayNameBinding(this, nameof(IGreenshotLanguage.SettingsTitle));
 
-            // TODO: Check if we need to set the current language (this should update all registered OnPropertyChanged anyway, so it can run in the background
-            //var lang = demoConfiguration.Language;
-            //Task.Run(async () => await LanguageLoader.Current.ChangeLanguageAsync(lang).ConfigureAwait(false));
+            var lang = coreConfiguration.Language;
+            Task.Run(async () => await languageContainer.ChangeLanguageAsync(lang).ConfigureAwait(false));
         }
 
         /// <summary>

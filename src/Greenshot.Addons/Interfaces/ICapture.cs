@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,15 +17,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Drawing;
 using Dapplo.Windows.Common.Structs;
-
-#endregion
+using Greenshot.Gfx;
 
 namespace Greenshot.Addons.Interfaces
 {
@@ -36,23 +29,44 @@ namespace Greenshot.Addons.Interfaces
 	/// </summary>
 	public interface ICapture : IDisposable
 	{
-		// The Capture Details
-		ICaptureDetails CaptureDetails { get; set; }
+        /// <summary>
+        /// The Capture Details
+        /// </summary>
+        ICaptureDetails CaptureDetails { get; set; }
 
-        // The captured Image
-	    Bitmap Bitmap { get; set; }
+        /// <summary>
+        /// The captured Image
+        /// </summary>
+        IBitmapWithNativeSupport Bitmap { get; set; }
 
+		/// <summary>
+		/// Bounds of the capture
+		/// </summary>
 		NativeRect ScreenBounds { get; set; }
 
+		/// <summary>
+		/// Cursor on the capture
+		/// </summary>
 		Icon Cursor { get; set; }
 
-		// Boolean to specify if the cursor is available
-		bool CursorVisible { get; set; }
+        /// <summary>
+        /// Boolean to specify if the cursor is available
+        /// </summary>
+        bool CursorVisible { get; set; }
 
+        /// <summary>
+        /// Location of the cursor
+        /// </summary>
 	    NativePoint CursorLocation { get; set; }
 
+        /// <summary>
+        /// Location of the capture
+        /// </summary>
 	    NativePoint Location { get; set; }
 
+        /// <summary>
+        /// Clear the capture
+        /// </summary>
 		void NullBitmap();
 
         /// <summary>

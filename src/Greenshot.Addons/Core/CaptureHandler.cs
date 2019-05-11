@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,14 +17,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
-using System.Drawing;
 using Dapplo.Windows.Common.Structs;
-
-#endregion
+using Greenshot.Gfx;
 
 namespace Greenshot.Addons.Core
 {
@@ -35,7 +27,7 @@ namespace Greenshot.Addons.Core
 	/// </summary>
 	/// <param name="captureBounds"></param>
 	/// <returns>Captured Bitmap</returns>
-	public delegate Bitmap CaptureScreenRectangleHandler(NativeRect captureBounds);
+	public delegate IBitmapWithNativeSupport CaptureScreenRectangleHandler(NativeRect captureBounds);
 
 	/// <summary>
 	///     This is a hack to experiment with different screen capture routines

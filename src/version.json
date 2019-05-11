@@ -3,7 +3,7 @@
   "version": "2.0",
   "publicReleaseRefSpec": [
     ".*/master$", // we release out of master
-	".*/develop$" // we release out of develop
+	  ".*/develop$" // we release out of develop
   ],
   "nugetPackageVersion": {
      "semVer": 2 // optional. Set to either 1 or 2 to control how the NuGet package version string is generated. Default is 1.

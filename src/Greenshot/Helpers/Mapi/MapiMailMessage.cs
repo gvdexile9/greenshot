@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,10 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -35,19 +29,17 @@ using Greenshot.Addons.Core;
 using Greenshot.Addons.Interfaces;
 using Greenshot.Addons.Interfaces.Plugin;
 
-#endregion
-
 namespace Greenshot.Helpers.Mapi
 {
     /// <summary>
     ///     Author: Andrew Baker
     ///     Datum: 10.03.2006
-    ///     Available from <a href="http://www.vbusers.com/codecsharp/codeget.asp?ThreadID=71&PostID=1">here</a>
+    ///     Available from <a href="http://www.vbusers.com/codecsharp/codeget.asp?ThreadID=71">here</a>
     /// </summary>
     /// <summary>
     ///     Represents an email message to be sent through MAPI.
     /// </summary>
-    public partial class MapiMailMessage : IDisposable
+    public class MapiMailMessage : IDisposable
 	{
 		private static readonly LogSource Log = new LogSource();
 
@@ -56,13 +48,9 @@ namespace Greenshot.Helpers.Mapi
         /// </summary>
         internal static ICoreConfiguration CoreConfiguration { get; set; }
 
-        #region Member Variables
-
         private readonly ManualResetEvent _manualResetEvent;
 
-		#endregion Member Variables
-
-		/// <summary>
+        /// <summary>
 		///     Helper Method for creating an Email with Attachment
 		/// </summary>
 		/// <param name="fullPath">Path to file</param>
@@ -114,9 +102,7 @@ namespace Greenshot.Helpers.Mapi
 			}
 		}
 
-		#region Constructors
-
-		/// <summary>
+        /// <summary>
 		///     Creates a blank mail message.
 		/// </summary>
 		public MapiMailMessage()
@@ -143,11 +129,7 @@ namespace Greenshot.Helpers.Mapi
 			Body = body;
 		}
 
-		#endregion Constructors
-
-		#region Public Properties
-
-		/// <summary>
+        /// <summary>
 		///     Gets or sets the subject of this mail message.
 		/// </summary>
 		public string Subject { get; set; }
@@ -167,11 +149,7 @@ namespace Greenshot.Helpers.Mapi
 		/// </summary>
 		public List<string> Files { get; }
 
-		#endregion Public Properties
-
-		#region Public Methods
-
-		/// <summary>
+        /// <summary>
 		///     Displays the mail message dialog asynchronously.
 		/// </summary>
 		public void ShowDialog()
@@ -190,17 +168,18 @@ namespace Greenshot.Helpers.Mapi
 			_manualResetEvent.Reset();
 		}
 
-		public void Dispose()
+        /// <inheritdoc />
+        public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
 
-		#endregion Public Methods
-
-		#region Private Methods
-
-		protected virtual void Dispose(bool disposing)
+        /// <summary>
+        /// Actual dispose implementation
+        /// </summary>
+        /// <param name="disposing">bool</param>
+        protected virtual void Dispose(bool disposing)
 		{
 			if (!disposing)
 			{
@@ -234,9 +213,9 @@ namespace Greenshot.Helpers.Mapi
 				// Signal the creating thread (make the remaining code async)
 				_manualResetEvent.Set();
 
-				const int MAPI_DIALOG = 0x8;
+				const int mapiDialog = 0x8;
 				//const int MAPI_LOGON_UI = 0x1;
-				var error = MapiHelperInterop.MAPISendMail(IntPtr.Zero, IntPtr.Zero, message, MAPI_DIALOG, 0);
+				var error = MapiHelperInterop.MAPISendMail(IntPtr.Zero, IntPtr.Zero, message, mapiDialog, 0);
 
 				if (Files.Count > 0)
 				{
@@ -451,7 +430,5 @@ namespace Greenshot.Helpers.Mapi
 			}
 			return error;
 		}
-
-		#endregion Private Methods
-	}
+    }
 }

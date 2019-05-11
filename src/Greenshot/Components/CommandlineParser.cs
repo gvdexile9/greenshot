@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -18,8 +16,6 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-#endregion
 
 using System;
 using System.Collections.Generic;
@@ -77,7 +73,7 @@ namespace Greenshot.Components
                 if (argument.ToLower().Equals("/help") || argument.ToLower().Equals("/h") || argument.ToLower().Equals("/?"))
                 {
                     // Try to attach to the console
-                    var attachedToConsole = Kernel32Api.AttachConsole(Kernel32Api.ATTACHCONSOLE_ATTACHPARENTPROCESS);
+                    var attachedToConsole = Kernel32Api.AttachConsole();
                     // If attach didn't work, open a console
                     if (!attachedToConsole)
                     {
@@ -190,7 +186,7 @@ namespace Greenshot.Components
                 if (arguments.Length > 0 && arguments[0].ToLower().Equals("/capture"))
                 {
                     // Try to attach to the console
-                    bool attachedToConsole = Kernel32Api.AttachConsole(Kernel32Api.ATTACHCONSOLE_ATTACHPARENTPROCESS);
+                    bool attachedToConsole = Kernel32Api.AttachConsole();
                     // If attach didn't work, open a console
                     if (!attachedToConsole)
                     {

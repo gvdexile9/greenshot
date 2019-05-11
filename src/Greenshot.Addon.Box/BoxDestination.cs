@@ -1,6 +1,4 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
+﻿// Greenshot - a free and open source screenshot tool
 // Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
@@ -19,13 +17,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -49,10 +42,11 @@ using Greenshot.Addons.Extensions;
 using Greenshot.Addons.Interfaces;
 using Greenshot.Gfx;
 
-#endregion
-
 namespace Greenshot.Addon.Box
 {
+    /// <summary>
+    /// This is the destination for the Box service
+    /// </summary>
     [Destination("Box")]
     public class BoxDestination : AbstractDestination
 	{
@@ -67,7 +61,18 @@ namespace Greenshot.Addon.Box
         private static readonly Uri UploadFileUri = new Uri("https://upload.box.com/api/2.0/files/content");
         private static readonly Uri FilesUri = new Uri("https://www.box.com/api/2.0/files/");
 
-		public BoxDestination(
+        /// <summary>
+        /// DI constructor
+        /// </summary>
+        /// <param name="coreConfiguration">ICoreConfiguration</param>
+        /// <param name="greenshotLanguage">IGreenshotLanguage</param>
+        /// <param name="exportNotification">ExportNotification</param>
+        /// <param name="boxConfiguration">IBoxConfiguration</param>
+        /// <param name="boxLanguage">IBoxLanguage</param>
+        /// <param name="pleaseWaitFormFactory">Func factory for PleaseWaitForm</param>
+        /// <param name="httpConfiguration">IHttpConfiguration</param>
+        /// <param name="resourceProvider">IResourceProvider</param>
+        public BoxDestination(
             ICoreConfiguration coreConfiguration,
             IGreenshotLanguage greenshotLanguage,
             ExportNotification exportNotification,
@@ -105,9 +110,11 @@ namespace Greenshot.Addon.Box
             };
         }
 
-	    public override string Description => _boxLanguage.UploadMenuItem;
+        /// <inheritdoc />
+        public override string Description => _boxLanguage.UploadMenuItem;
 
-	    public override Bitmap DisplayIcon
+        /// <inheritdoc />
+        public override IBitmapWithNativeSupport DisplayIcon
 		{
 			get
 			{
@@ -119,7 +126,8 @@ namespace Greenshot.Addon.Box
 			}
 		}
 
-		public override async Task<ExportInformation> ExportCaptureAsync(bool manuallyInitiated, ISurface surface, ICaptureDetails captureDetails)
+        /// <inheritdoc />
+        public override async Task<ExportInformation> ExportCaptureAsync(bool manuallyInitiated, ISurface surface, ICaptureDetails captureDetails)
 		{
 			var exportInformation = new ExportInformation(Designation, Description);
 			var uploadUrl = await UploadAsync(surface).ConfigureAwait(true);

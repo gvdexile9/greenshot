@@ -1,6 +1,4 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
+﻿// Greenshot - a free and open source screenshot tool
 // Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
@@ -19,9 +17,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-using System.Windows.Media;
+using Greenshot.Gfx;
 using Newtonsoft.Json;
 
 namespace Greenshot.Addon.Imgur.Entities
@@ -31,8 +27,9 @@ namespace Greenshot.Addon.Imgur.Entities
     /// </summary>
     public class ImgurImage
     {
+#pragma warning disable 1591
         [JsonIgnore]
-        public ImageSource Image { get; set; }
+        public IBitmapWithNativeSupport Image { get; set; }
 
         [JsonProperty("data")]
         public ImgurData Data { get; set; }

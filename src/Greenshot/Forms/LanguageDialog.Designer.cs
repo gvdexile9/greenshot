@@ -1,6 +1,6 @@
 ﻿/*
  * Greenshot - a free and open source screenshot tool
- * Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+ * Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
  * 
  * For more information see: http://getgreenshot.org/
  * The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -67,7 +67,7 @@ namespace Greenshot.Forms {
 			this.btnOK.TabIndex = 1;
 			this.btnOK.Text = "OK";
 			this.btnOK.UseVisualStyleBackColor = true;
-			this.btnOK.Click += new System.EventHandler(this.BtnOKClick);
+			this.btnOK.Click += new System.EventHandler(this.BtnOkClick);
 			// 
 			// LanguageDialog
 			// 

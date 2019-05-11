@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,18 +17,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Greenshot.Addons.Interfaces.Drawing;
+using Greenshot.Gfx;
 using Greenshot.Gfx.Effects;
-
-#endregion
 
 namespace Greenshot.Addons.Interfaces
 {
@@ -47,9 +40,12 @@ namespace Greenshot.Addons.Interfaces
 		/// <summary>
 		///     Unique ID of the Surface
 		/// </summary>
-		Guid ID { get; set; }
+		Guid Id { get; set; }
 
-		IDrawableContainerList Elements { get; }
+        /// <summary>
+        /// All the elements (containers) on the surface
+        /// </summary>
+        IDrawableContainerList Elements { get; }
 
 		/// <summary>
 		///     Get/Set the image to the Surface
@@ -59,25 +55,66 @@ namespace Greenshot.Addons.Interfaces
 		///     The setter will clone the passed bitmap and dispose it when the Surface is disposed
 		///     This means that the supplied image needs to be disposed by the calling code (if needed!)
 		/// </summary>
-		Bitmap Screenshot { get; set; }
+        IBitmapWithNativeSupport Screenshot { get; set; }
 
+		/// <summary>
+		/// Are any elements selected
+		/// </summary>
 		bool HasSelectedElements { get; }
 
+		/// <summary>
+		/// Is the surface modified? False if the surface has been exported or saved.
+		/// </summary>
 		bool Modified { get; set; }
 
+		/// <summary>
+		/// When the surface is saved, this is the location of the last save
+		/// </summary>
 		string LastSaveFullPath { get; set; }
 
+        /// <summary>
+        /// When the surface is uploaded, this is the url for the last upload
+        /// </summary>
 		string UploadUrl { get; set; }
 
+        /// <summary>
+        /// Does the surface have a cursor?
+        /// </summary>
 		bool HasCursor { get; }
 
+		/// <summary>
+		/// The capture details for the capture which is used by the surface
+		/// </summary>
 		ICaptureDetails CaptureDetails { get; set; }
 
+		/// <summary>
+		/// Width of the surface
+		/// </summary>
 		int Width { get; }
+
+        /// <summary>
+        /// Height of the surface
+        /// </summary>
 		int Height { get; }
+
+        /// <summary>
+        /// The size changed event
+        /// </summary>
 		event SurfaceSizeChangeEventHandler SurfaceSizeChanged;
+
+        /// <summary>
+        /// The message event
+        /// </summary>
 		event SurfaceMessageEventHandler SurfaceMessage;
+
+        /// <summary>
+        /// The drawing mode changed event
+        /// </summary>
 		event SurfaceDrawingModeEventHandler DrawingModeChanged;
+
+        /// <summary>
+        /// The moving element changed event
+        /// </summary>
 		event SurfaceElementEventHandler MovingElementChanged;
 
         /// <summary>
@@ -85,7 +122,7 @@ namespace Greenshot.Addons.Interfaces
         ///     Don't forget to call image.Dispose() when finished!!!
         /// </summary>
         /// <returns>Bitmap</returns>
-        Bitmap GetBitmapForExport();
+        IBitmapWithNativeSupport GetBitmapForExport();
 
 		/// <summary>
 		///     Add a TextContainer, at the given location, to the Surface.
@@ -105,20 +142,108 @@ namespace Greenshot.Addons.Interfaces
 		ITextContainer AddTextContainer(string text, HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment, FontFamily family, float size, bool italic,
 			bool bold, bool shadow, int borderSize, Color color, Color fillColor);
 
-		IBitmapContainer AddImageContainer(Bitmap bitmap, int x, int y);
-		ICursorContainer AddCursorContainer(Cursor cursor, int x, int y);
+        /// <summary>
+        /// Add an image container to the surface at the specified location
+        /// </summary>
+        /// <param name="bitmap">IBitmapWithNativeSupport</param>
+        /// <param name="x">int</param>
+        /// <param name="y">int</param>
+        /// <returns>IBitmapContainer</returns>
+        IBitmapContainer AddImageContainer(IBitmapWithNativeSupport bitmap, int x, int y);
+
+        /// <summary>
+        /// Add a cursor container to the surface at the specified location
+        /// </summary>
+        /// <param name="cursor">Cursor</param>
+        /// <param name="x">int</param>
+        /// <param name="y">int</param>
+        /// <returns>ICursorContainer</returns>
+        ICursorContainer AddCursorContainer(Cursor cursor, int x, int y);
+
+        /// <summary>
+        /// Add an icon container to the surface at the specified location
+        /// </summary>
+        /// <param name="icon">Icon</param>
+        /// <param name="x">int</param>
+        /// <param name="y">int</param>
+        /// <returns>IIconContainer</returns>
 		IIconContainer AddIconContainer(Icon icon, int x, int y);
+
+        /// <summary>
+        /// Add an image container to the surface at the specified location
+        /// </summary>
+        /// <param name="filename">string</param>
+        /// <param name="x">int</param>
+        /// <param name="y">int</param>
+        /// <returns>IBitmapContainer</returns>
 		IBitmapContainer AddImageContainer(string filename, int x, int y);
-		ICursorContainer AddCursorContainer(string filename, int x, int y);
+
+        /// <summary>
+        /// Add a cursor container to the surface at the specified location
+        /// </summary>
+        /// <param name="filename">string</param>
+        /// <param name="x">int</param>
+        /// <param name="y">int</param>
+        /// <returns>ICursorContainer</returns>
+        ICursorContainer AddCursorContainer(string filename, int x, int y);
+
+        /// <summary>
+        /// Add an icon container to the surface at the specified location
+        /// </summary>
+        /// <param name="filename">string</param>
+        /// <param name="x">int</param>
+        /// <param name="y">int</param>
+        /// <returns>IIconContainer</returns>
 		IIconContainer AddIconContainer(string filename, int x, int y);
+
+        /// <summary>
+        /// Save all elements to the specified stream
+        /// </summary>
+        /// <param name="stream">Stream</param>
+        /// <returns>long with the size</returns>
 		long SaveElementsToStream(Stream stream);
+
+        /// <summary>
+        /// Load all the elements from the specified stream unto this surface
+        /// </summary>
+        /// <param name="stream">Stream</param>
 		void LoadElementsFromStream(Stream stream);
+
+        /// <summary>
+        /// Remove all elements which are selected
+        /// </summary>
 		void RemoveSelectedElements();
+
+        /// <summary>
+        /// Cut all selected elements
+        /// </summary>
 		void CutSelectedElements();
+
+        /// <summary>
+        /// Copy all selected elements onto the clipboard
+        /// </summary>
 		void CopySelectedElements();
+
+        /// <summary>
+        /// Paste all elements from the clipboard unto the surface
+        /// </summary>
 		void PasteElementFromClipboard();
+
+        /// <summary>
+        /// Create a clone from all selected elements
+        /// </summary>
 		void DuplicateSelectedElements();
+
+        /// <summary>
+        /// de-select the specified element
+        /// </summary>
+        /// <param name="container">IDrawableContainer</param>
+        /// <param name="generateEvents">bool</param>
 		void DeselectElement(IDrawableContainer container, bool generateEvents = true);
+
+        /// <summary>
+        /// de-select all elements
+        /// </summary>
 		void DeselectAllElements();
 
 		/// <summary>
@@ -128,7 +253,17 @@ namespace Greenshot.Addons.Interfaces
 		/// <param name="makeUndoable">Should it be placed on the undo stack?</param>
 		void AddElements(IDrawableContainerList elements, bool makeUndoable = true);
 
-		void RemoveElements(IDrawableContainerList elements, bool makeUndoable = true);
+        /// <summary>
+        /// Remove the specified elements
+        /// </summary>
+        /// <param name="elements">IDrawableContainerList</param>
+        /// <param name="makeUndoable">bool</param>
+        void RemoveElements(IDrawableContainerList elements, bool makeUndoable = true);
+
+        /// <summary>
+        /// Select the specified elements
+        /// </summary>
+        /// <param name="elements">IDrawableContainerList</param>
 		void SelectElements(IDrawableContainerList elements);
 
 		/// <summary>
@@ -154,7 +289,15 @@ namespace Greenshot.Addons.Interfaces
 		/// <returns>This returns false if the container is deleted but still in the undo stack</returns>
 		bool IsOnSurface(IDrawableContainer container);
 
-		void Invalidate(Rectangle rectangleToInvalidate);
+        /// <summary>
+        /// Invalidate the surface, used for redrawing, for the specified rectangle
+        /// </summary>
+        /// <param name="rectangleToInvalidate">Rectangle</param>
+        void Invalidate(Rectangle rectangleToInvalidate);
+
+        /// <summary>
+        /// Invalidate the surface, used for redrawing.
+        /// </summary>
 		void Invalidate();
 
 		/// <summary>
@@ -166,11 +309,31 @@ namespace Greenshot.Addons.Interfaces
 		/// <param name="generateEvents">flag specifying if the deselect needs to generate an event</param>
 		void RemoveElement(IDrawableContainer elementToRemove, bool makeUndoable = true, bool invalidate = true, bool generateEvents = true);
 
-		void SendMessageEvent(object source, SurfaceMessageTyp messageType, string message);
+        /// <summary>
+        /// Send a message
+        /// </summary>
+        /// <param name="source">object</param>
+        /// <param name="messageType">SurfaceMessageTyp</param>
+        /// <param name="message">string</param>
+        void SendMessageEvent(object source, SurfaceMessageTyp messageType, string message);
+
+		/// <summary>
+		/// Apply an effect to the surface
+		/// </summary>
+		/// <param name="effect"></param>
 		void ApplyBitmapEffect(IEffect effect);
+
+		/// <summary>
+		/// Remove the cursor from the surface
+		/// </summary>
 		void RemoveCursor();
 
-		void MakeUndoable(IMemento memento, bool allowMerge);
+        /// <summary>
+        /// Make a change to the surface undoable.
+        /// </summary>
+        /// <param name="memento">IMemento</param>
+        /// <param name="allowMerge">bool</param>
+        void MakeUndoable(IMemento memento, bool allowMerge);
 
 	    /// <summary>
 	    /// Use the supplied capture in the surface
@@ -179,10 +342,10 @@ namespace Greenshot.Addons.Interfaces
 	    void SetCapture(ICapture capture);
 
 	    /// <summary>
-	    /// Use the supplied bitmape in the surface
+	    /// Use the supplied bitmap in the surface
 	    /// </summary>
-	    /// <param name="bitmap">Bitmap</param>
+	    /// <param name="bitmap">IBitmapWithNativeSupport</param>
 	    /// <param name="dispose">specify if the current bitmap must be disposed</param>
-	    void SetBitmap(Bitmap bitmap, bool dispose = false);
+	    void SetBitmap(IBitmapWithNativeSupport bitmap, bool dispose = false);
     }
 }

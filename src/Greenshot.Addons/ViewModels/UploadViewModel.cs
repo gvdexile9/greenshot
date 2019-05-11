@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -18,8 +16,6 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-#endregion
 
 using System.Reactive.Disposables;
 using Caliburn.Micro;
@@ -38,13 +34,21 @@ namespace Greenshot.Addons.ViewModels
         /// </summary>
         private CompositeDisposable _disposables;
 
+        /// <summary>
+        /// Provide the IGreenshotLanguage to the view
+        /// </summary>
         public IGreenshotLanguage GreenshotLanguage { get; }
 
+        /// <summary>
+        /// DI constructor
+        /// </summary>
+        /// <param name="greenshotLanguage"></param>
         public UploadViewModel(IGreenshotLanguage greenshotLanguage)
         {
             GreenshotLanguage = greenshotLanguage;
         }
 
+        /// <inheritdoc />
         protected override void OnActivate()
         {
             // Prepare disposables
@@ -56,6 +60,7 @@ namespace Greenshot.Addons.ViewModels
             base.OnActivate();
         }
 
+        /// <inheritdoc />
         protected override void OnDeactivate(bool close)
         {
             _disposables.Dispose();

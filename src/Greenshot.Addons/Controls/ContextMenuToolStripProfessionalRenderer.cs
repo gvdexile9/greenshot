@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,18 +17,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System.Drawing;
 using System.Windows.Forms;
 using Dapplo.Windows.Common.Structs;
-using Greenshot.Addons.Config.Impl;
 using Greenshot.Addons.Core;
 using Greenshot.Gfx;
-
-#endregion
 
 namespace Greenshot.Addons.Controls
 {
@@ -41,14 +32,20 @@ namespace Greenshot.Addons.Controls
 	{
 	    private readonly ICoreConfiguration _coreConfiguration;
 
+        /// <summary>
+        /// DI constructor
+        /// </summary>
+        /// <param name="coreConfiguration"></param>
         public ContextMenuToolStripProfessionalRenderer(ICoreConfiguration coreConfiguration)
         {
             _coreConfiguration = coreConfiguration;
         }
 
-        private Image _scaledCheckbox;
+        private IBitmapWithNativeSupport _scaledCheckbox;
 		private bool _newImage;
-		protected override void OnRenderItemCheck(ToolStripItemImageRenderEventArgs e)
+
+        /// <inheritdoc />
+        protected override void OnRenderItemCheck(ToolStripItemImageRenderEventArgs e)
 		{
 			if (_scaledCheckbox == null || (NativeSize)_scaledCheckbox.Size != _coreConfiguration.IconSize)
 			{
@@ -56,12 +53,12 @@ namespace Greenshot.Addons.Controls
 				{
 					_scaledCheckbox?.Dispose();
 				}
-				var checkbox = ((Bitmap) e.Image);
+				var checkbox = BitmapWrapper.FromBitmap((Bitmap) e.Image);
 				_scaledCheckbox = checkbox.ScaleIconForDisplaying(96);
 				_newImage = !Equals(checkbox, _scaledCheckbox);
 			}
 			var old = e.ImageRectangle;
-			var clone = new ToolStripItemImageRenderEventArgs(e.Graphics, e.Item, _scaledCheckbox, new Rectangle(old.X, 0, old.Width, old.Height));
+			var clone = new ToolStripItemImageRenderEventArgs(e.Graphics, e.Item, _scaledCheckbox.NativeBitmap, new Rectangle(old.X, 0, old.Width, old.Height));
 			base.OnRenderItemCheck(clone);
 		}
 	}

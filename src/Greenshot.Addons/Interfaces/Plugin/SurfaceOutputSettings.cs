@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,17 +17,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System.Collections.Generic;
-using Greenshot.Addons.Config.Impl;
 using Greenshot.Addons.Core;
 using Greenshot.Core.Enums;
 using Greenshot.Gfx.Effects;
-
-#endregion
 
 namespace Greenshot.Addons.Interfaces.Plugin
 {
@@ -42,40 +33,73 @@ namespace Greenshot.Addons.Interfaces.Plugin
 		private bool _reduceColors;
 
         /// <summary>
-        /// Constructor
+        /// Default constructor
         /// </summary>
         /// <param name="fileConfiguration">IFileConfiguration</param>
 		public SurfaceOutputSettings(IFileConfiguration fileConfiguration)
 		{
 			_disableReduceColors = false;
 			Format = fileConfiguration?.OutputFileFormat ?? OutputFormats.png;
-			JPGQuality = fileConfiguration?.OutputFileJpegQuality ?? 80;
+			JpgQuality = fileConfiguration?.OutputFileJpegQuality ?? 80;
 			ReduceColors = fileConfiguration?.OutputFileReduceColors ?? false;
 		}
 
-		public SurfaceOutputSettings(IFileConfiguration fileConfiguration, OutputFormats format) : this(fileConfiguration)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="fileConfiguration">IFileConfiguration</param>
+        /// <param name="format">OutputFormats</param>
+        public SurfaceOutputSettings(IFileConfiguration fileConfiguration, OutputFormats format) : this(fileConfiguration)
 		{
 			Format = format;
 		}
 
-		public SurfaceOutputSettings(IFileConfiguration fileConfiguration, OutputFormats format, int quality) : this(fileConfiguration, format)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="fileConfiguration">IFileConfiguration</param>
+        /// <param name="format">OutputFormats</param>
+        /// <param name="quality">int</param>
+        public SurfaceOutputSettings(IFileConfiguration fileConfiguration, OutputFormats format, int quality) : this(fileConfiguration, format)
 		{
-			JPGQuality = quality;
+			JpgQuality = quality;
 		}
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="fileConfiguration">IFileConfiguration</param>
+        /// <param name="format">OutputFormats</param>
+        /// <param name="quality">int</param>
+        /// <param name="reduceColors">bool</param>
 		public SurfaceOutputSettings(IFileConfiguration fileConfiguration, OutputFormats format, int quality, bool reduceColors) : this(fileConfiguration, format, quality)
 		{
 			ReduceColors = reduceColors;
 		}
 
+        /// <summary>
+        /// Format to output to
+        /// </summary>
         public OutputFormats Format { get; set; }
 
-		public int JPGQuality { get; set; }
+		/// <summary>
+		/// Jpg-Quality to output with
+		/// </summary>
+		public int JpgQuality { get; set; }
 
+		/// <summary>
+		/// Only save the background (capture)
+		/// </summary>
 		public bool SaveBackgroundOnly { get; set; }
 
+		/// <summary>
+		/// List of effects to use on the output
+		/// </summary>
 		public List<IEffect> Effects { get; } = new List<IEffect>();
 
+		/// <summary>
+		/// Do the colors need to be reduced?
+		/// </summary>
 		public bool ReduceColors
 		{
 			get

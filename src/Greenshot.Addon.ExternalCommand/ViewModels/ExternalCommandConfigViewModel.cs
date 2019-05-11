@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,8 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 using System.Reactive.Disposables;
 using Caliburn.Micro;
 using Dapplo.CaliburnMicro.Configuration;
@@ -33,7 +29,7 @@ using Greenshot.Addons.ViewModels;
 namespace Greenshot.Addon.ExternalCommand.ViewModels
 {
     /// <summary>
-    /// Configuration for the external commands
+    /// Configuration for the external commands add-on
     /// </summary>
     public sealed class ExternalCommandConfigViewModel : SimpleConfigScreen
     {
@@ -42,15 +38,39 @@ namespace Greenshot.Addon.ExternalCommand.ViewModels
         /// </summary>
         private CompositeDisposable _disposables;
 
+        /// <summary>
+        /// Provide the IExternalCommandConfiguration to the view
+        /// </summary>
         public IExternalCommandConfiguration ExternalCommandConfiguration { get; }
 
+        /// <summary>
+        /// Provide the IExternalCommandLanguage to the view
+        /// </summary>
         public IExternalCommandLanguage ExternalCommandLanguage { get; }
 
+        /// <summary>
+        /// Provide the IGreenshotLanguage to the view
+        /// </summary>
         public IGreenshotLanguage GreenshotLanguage { get; }
 
+        /// <summary>
+        /// Provide the FileConfigPartViewModel to the view
+        /// </summary>
         public FileConfigPartViewModel FileConfigPartViewModel { get; private set; }
+
+        /// <summary>
+        ///  Provide the ExternalCommandMasterViewModel to the view
+        /// </summary>
         public ExternalCommandMasterViewModel ExternalCommandMasterViewModel { get; }
 
+        /// <summary>
+        /// DI constructor
+        /// </summary>
+        /// <param name="externalCommandConfiguration">IExternalCommandConfiguration</param>
+        /// <param name="externalCommandLanguage">IExternalCommandLanguage</param>
+        /// <param name="greenshotLanguage">IGreenshotLanguage</param>
+        /// <param name="fileConfigPartViewModel">FileConfigPartViewModel</param>
+        /// <param name="externalCommandMasterViewModel">ExternalCommandMasterViewModel</param>
         public ExternalCommandConfigViewModel(
             IExternalCommandConfiguration externalCommandConfiguration,
             IExternalCommandLanguage externalCommandLanguage,
@@ -65,6 +85,7 @@ namespace Greenshot.Addon.ExternalCommand.ViewModels
             ExternalCommandMasterViewModel = externalCommandMasterViewModel;
         }
 
+        /// <inheritdoc />
         public override void Initialize(IConfig config)
         {
             FileConfigPartViewModel.DestinationFileConfiguration = ExternalCommandConfiguration;
@@ -87,18 +108,21 @@ namespace Greenshot.Addon.ExternalCommand.ViewModels
             base.Initialize(config);
         }
 
+        /// <inheritdoc />
         protected override void OnActivate()
         {
             base.OnActivate();
             ExternalCommandMasterViewModel.ActivateWith(this);
         }
 
+        /// <inheritdoc />
         protected override void OnDeactivate(bool close)
         {
             _disposables.Dispose();
             base.OnDeactivate(close);
         }
 
+        /// <inheritdoc />
         public override void Commit()
         {
             ExternalCommandMasterViewModel.Store();

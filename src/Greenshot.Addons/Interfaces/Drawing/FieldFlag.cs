@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,21 +17,27 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
-
-#endregion
 
 namespace Greenshot.Addons.Interfaces.Drawing
 {
+	/// <summary>
+	/// Flags for a field, which define a behavior
+	/// </summary>
 	[Flags]
 	public enum FieldFlag
 	{
-		NONE = 0,
-		CONFIRMABLE = 1,
-		COUNTER = 2
+        /// <summary>
+        /// No flags
+        /// </summary>
+		None = 0,
+        /// <summary>
+        /// This field needs to be confirmed
+        /// </summary>
+		Confirmable = 1,
+        /// <summary>
+        /// This field is a counter
+        /// </summary>
+		Counter = 2
 	}
 }

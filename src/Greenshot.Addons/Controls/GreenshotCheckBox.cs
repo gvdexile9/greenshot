@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,14 +17,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System.ComponentModel;
 using System.Windows.Forms;
-
-#endregion
 
 namespace Greenshot.Addons.Controls
 {
@@ -35,16 +27,25 @@ namespace Greenshot.Addons.Controls
 	/// </summary>
 	public class GreenshotCheckBox : CheckBox, IGreenshotLanguageBindable, IGreenshotConfigBindable
 	{
+        /// <summary>
+        /// Name of the section to use for the checkbox value
+        /// </summary>
 		[Category("Greenshot")]
 		[DefaultValue("Core")]
 		[Description("Specifies the Ini-Section to map this control with.")]
 		public string SectionName { get; set; } = "Core";
 
+        /// <summary>
+        /// Name of the propety to use for the checkbox value
+        /// </summary>
 		[Category("Greenshot")]
 		[DefaultValue(null)]
 		[Description("Specifies the property name to map the configuration.")]
 		public string PropertyName { get; set; }
 
+        /// <summary>
+        /// Key for the translation of the label belonging to the checkbox
+        /// </summary>
 		[Category("Greenshot")]
 		[DefaultValue(null)]
 		[Description("Specifies key of the language file to use when displaying the text.")]

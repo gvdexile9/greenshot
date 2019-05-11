@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,17 +17,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Runtime.Serialization;
 using Greenshot.Addon.LegacyEditor.Drawing.Fields;
 using Greenshot.Addon.LegacyEditor.Drawing.Filters;
 using Greenshot.Addons.Interfaces.Drawing;
-
-#endregion
 
 namespace Greenshot.Addon.LegacyEditor.Drawing
 {
@@ -50,7 +42,7 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 		protected override void InitializeFields()
 		{
 			base.InitializeFields();
-			AddField(GetType(), FieldTypes.PREPARED_FILTER_HIGHLIGHT, PreparedFilter.TEXT_HIGHTLIGHT);
+			AddField(GetType(), FieldTypes.PREPARED_FILTER_HIGHLIGHT, PreparedFilter.TextHightlight);
 		}
 
 		protected override void OnDeserialized(StreamingContext context)
@@ -85,10 +77,10 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 			}
 			switch (preset)
 			{
-				case PreparedFilter.TEXT_HIGHTLIGHT:
+				case PreparedFilter.TextHightlight:
 					Add(new HighlightFilter(this, _editorConfiguration));
 					break;
-				case PreparedFilter.AREA_HIGHLIGHT:
+				case PreparedFilter.AreaHighlight:
 					var brightnessFilter = new BrightnessFilter(this, _editorConfiguration)
 					{
 						Invert = true
@@ -100,14 +92,14 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 					};
 					Add(blurFilter);
 					break;
-				case PreparedFilter.GRAYSCALE:
+				case PreparedFilter.Grayscale:
                     AbstractFilter f = new GrayscaleFilter(this, _editorConfiguration)
                     {
                         Invert = true
                     };
                     Add(f);
 					break;
-				case PreparedFilter.MAGNIFICATION:
+				case PreparedFilter.Magnification:
 					Add(new MagnifierFilter(this, _editorConfiguration));
 					break;
 			}

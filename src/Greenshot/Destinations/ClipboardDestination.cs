@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,12 +17,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 using Dapplo.Windows.Clipboard;
 using Greenshot.Addons;
@@ -36,8 +29,7 @@ using Greenshot.Addons.Interfaces;
 using Greenshot.Addons.Interfaces.Plugin;
 using Greenshot.Addons.Resources;
 using Greenshot.Core.Enums;
-
-#endregion
+using Greenshot.Gfx;
 
 namespace Greenshot.Destinations
 {
@@ -49,6 +41,12 @@ namespace Greenshot.Destinations
 	{
 	    private readonly ExportNotification _exportNotification;
 
+        /// <summary>
+        /// DI constructor
+        /// </summary>
+        /// <param name="coreConfiguration">ICoreConfiguration</param>
+        /// <param name="greenshotLanguage">IGreenshotLanguage</param>
+        /// <param name="exportNotification">ExportNotification</param>
 	    public ClipboardDestination(
 	        ICoreConfiguration coreConfiguration,
 	        IGreenshotLanguage greenshotLanguage,
@@ -58,12 +56,16 @@ namespace Greenshot.Destinations
 	        _exportNotification = exportNotification;
 	    }
 
+        /// <inheritdoc />
 	    public override string Description => GreenshotLanguage.SettingsDestinationClipboard;
 
+        /// <inheritdoc />
 	    public override Keys EditorShortcutKeys => Keys.Control | Keys.Shift | Keys.C;
 
-	    public override Bitmap DisplayIcon => GreenshotResources.Instance.GetBitmap("Clipboard.Image");
+        /// <inheritdoc />
+	    public override IBitmapWithNativeSupport DisplayIcon => GreenshotResources.Instance.GetBitmap("Clipboard.Image");
 
+        /// <inheritdoc />
 	    protected override ExportInformation ExportCapture(bool manuallyInitiated, ISurface surface, ICaptureDetails captureDetails)
 	    {
 			var exportInformation = new ExportInformation(Designation, Description);

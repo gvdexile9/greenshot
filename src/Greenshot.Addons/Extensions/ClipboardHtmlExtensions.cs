@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,8 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 using System;
 using System.IO;
 using System.Text;
@@ -33,6 +29,9 @@ using Greenshot.Core.Enums;
 
 namespace Greenshot.Addons.Extensions
 {
+    /// <summary>
+    /// Extensions for the Clipboard functionality which have to do with HTML
+    /// </summary>
     public static class ClipboardHtmlExtensions
     {
         // Defintion of the Html Clipboard format
@@ -136,6 +135,7 @@ EndSelection:<<<<<<<4
         /// </summary>
         /// <param name="clipboardAccessToken">IClipboardAccessToken</param>
         /// <param name="surface">ISurface</param>
+        /// <param name="coreConfiguration">ICoreConfiguration</param>
         public static void SetAsHtml(this IClipboardAccessToken clipboardAccessToken, ISurface surface, ICoreConfiguration coreConfiguration)
         {
             var pngOutputSettings = new SurfaceOutputSettings(coreConfiguration, OutputFormats.png, 100, false);
@@ -152,6 +152,7 @@ EndSelection:<<<<<<<4
         /// </summary>
         /// <param name="clipboardAccessToken">IClipboardAccessToken</param>
         /// <param name="surface">ISurface</param>
+        /// <param name="coreConfiguration">ICoreConfiguration</param>
         public static void SetAsEmbeddedHtml(this IClipboardAccessToken clipboardAccessToken, ISurface surface, ICoreConfiguration coreConfiguration)
         {
             using (var pngStream = new MemoryStream())

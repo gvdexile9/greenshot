@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -18,8 +16,6 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-#endregion
 
 using System;
 using Autofac.Features.OwnedInstances;
@@ -42,6 +38,12 @@ namespace Greenshot.Addons.Components
         private readonly IEventAggregator _eventAggregator;
         private readonly Func<IDestination, ExportInformation, ISurface, IConfigScreen, Owned<ExportNotificationViewModel>> _toastFactory;
 
+        /// <summary>
+        /// DI constructor
+        /// </summary>
+        /// <param name="coreConfiguration">ICoreConfiguration</param>
+        /// <param name="eventAggregator">IEventAggregator</param>
+        /// <param name="toastFactory">Func to create toasts</param>
         public ExportNotification(
             ICoreConfiguration coreConfiguration,
             IEventAggregator eventAggregator,

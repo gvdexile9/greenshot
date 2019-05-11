@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,18 +17,40 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 namespace Greenshot.Core.Enums
 {
+    /// <summary>
+    /// The output formats we support
+    /// </summary>
 	public enum OutputFormats
 	{
+        /// <summary>
+        /// Specify bmp to write bitmap files
+        /// </summary>
 		bmp,
-		gif,
-		jpg,
-		png,
-		tiff,
-		greenshot,
-		ico
-	}
+        /// <summary>
+        /// Specify gif to write gif files
+        /// </summary>
+        gif,
+        /// <summary>
+        /// Specify jpg to write bitjpgmap files
+        /// </summary>
+        jpg,
+        /// <summary>
+        /// Specify png to write png files
+        /// </summary>
+        png,
+        /// <summary>
+        /// Specify tiff to write tiff files
+        /// </summary>
+        tiff,
+        /// <summary>
+        /// Specify greenshot to write greenshot files with annotations and a PNG bitmap
+        /// </summary>
+        greenshot,
+        /// <summary>
+        /// Specify ico to write icon files
+        /// </summary>
+        ico
+    }
 }

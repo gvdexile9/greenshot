@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,18 +17,24 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 namespace Greenshot.Addons.Interfaces
 {
 	/// <summary>
-	///     Alignment Enums for possitioning
+	///     Alignment for positioning
 	/// </summary>
-	//public enum HorizontalAlignment {LEFT, CENTER, RIGHT};
 	public enum VerticalAlignment
 	{
-		TOP,
-		CENTER,
-		BOTTOM
+		/// <summary>
+		/// Align at the top
+		/// </summary>
+		Top,
+        /// <summary>
+        /// Align in the center
+        /// </summary>
+		Center,
+        /// <summary>
+        /// Align at the bottom
+        /// </summary>
+		Bottom
 	}
 }

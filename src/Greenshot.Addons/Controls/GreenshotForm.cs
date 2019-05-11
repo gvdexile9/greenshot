@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -18,10 +16,6 @@
 // 
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-#endregion
-
-#region Usings
 
 using System;
 using System.Collections.Generic;
@@ -40,8 +34,6 @@ using Dapplo.Windows.Dpi.Forms;
 using Greenshot.Addons.Resources;
 using Greenshot.Gfx;
 
-#endregion
-
 namespace Greenshot.Addons.Controls
 {
 	/// <summary>
@@ -53,7 +45,10 @@ namespace Greenshot.Addons.Controls
 		private static readonly IDictionary<Type, FieldInfo[]> ReflectionCache = new Dictionary<Type, FieldInfo[]>();
 	    private readonly ILanguage _language;
 		
-		protected readonly BitmapScaleHandler<string> ScaleHandler;
+        /// <summary>
+        /// This is the bitmap scale handler
+        /// </summary>
+		protected readonly BitmapScaleHandler<string, IBitmapWithNativeSupport> ScaleHandler;
 
 #if DEBUG
         public GreenshotForm()
@@ -68,11 +63,17 @@ namespace Greenshot.Addons.Controls
         {
             _language = language;
             // Add the Dapplo.Windows DPI change handler
-            ScaleHandler = BitmapScaleHandler.Create<string>(FormDpiHandler, (imageName, dpi) => GreenshotResources.Instance.GetBitmap(imageName, GetType()), (bitmap, dpi) => bitmap.ScaleIconForDisplaying(dpi));
+            ScaleHandler = BitmapScaleHandler.Create<string, IBitmapWithNativeSupport>(FormDpiHandler, (imageName, dpi) => GreenshotResources.Instance.GetBitmap(imageName, GetType()), (bitmap, dpi) => bitmap.ScaleIconForDisplaying(dpi));
         }
 
+        /// <summary>
+        /// manually apply the language
+        /// </summary>
 	    protected bool ManualLanguageApply { get; set; }
 
+        /// <summary>
+        /// Manually apply the field values
+        /// </summary>
 		protected bool ManualStoreFields { get; set; }
 
 		/// <summary>
@@ -80,11 +81,15 @@ namespace Greenshot.Addons.Controls
 		/// </summary>
 		protected bool ToFront { get; set; }
 
+        /// <summary>
+        /// The kex for the translation
+        /// </summary>
 		[Category("Greenshot")]
 		[DefaultValue(null)]
 		[Description("Specifies key of the language file to use when displaying the text.")]
 		public string LanguageKey { get; set; }
 
+        /// <inheritdoc />
 		protected override void OnLoad(EventArgs e)
 		{
 			// Every GreenshotForm should have it's default icon
@@ -391,6 +396,9 @@ namespace Greenshot.Addons.Controls
 			OnFieldsFilled();
 		}
 
+        /// <summary>
+        /// This is called when the fields are filled
+        /// </summary>
 		protected virtual void OnFieldsFilled()
 		{
 		}

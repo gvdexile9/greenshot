@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,10 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,14 +24,14 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Dapplo.Log;
-using Greenshot.Addons.Config.Impl;
 using Greenshot.Addons.Interfaces;
 using Greenshot.Core.Enums;
 
-#endregion
-
 namespace Greenshot.Addons.Core
 {
+	/// <summary>
+	/// Code for handling filenames, with patterns etc
+	/// </summary>
 	public static class FilenameHelper
 	{
 		private const int MaxTitleLength = 80;
@@ -107,22 +101,25 @@ namespace Greenshot.Addons.Core
 			return path;
 		}
 
-		public static string GetFilenameWithoutExtensionFromPattern(string pattern)
-		{
-			return GetFilenameWithoutExtensionFromPattern(pattern, null);
-		}
-
-		public static string GetFilenameWithoutExtensionFromPattern(string pattern, ICaptureDetails captureDetails)
+        /// <summary>
+        /// Create a filename without extension for the pattern based upon the specified details
+        /// </summary>
+        /// <param name="pattern">string</param>
+        /// <param name="captureDetails">ICaptureDetails</param>
+        /// <returns>string with filename</returns>
+        public static string GetFilenameWithoutExtensionFromPattern(string pattern, ICaptureDetails captureDetails)
 		{
 			return FillPattern(pattern, captureDetails, true);
 		}
 
-		public static string GetFilenameFromPattern(string pattern, OutputFormats imageFormat)
-		{
-			return GetFilenameFromPattern(pattern, imageFormat, null);
-		}
-
-		public static string GetFilenameFromPattern(string pattern, OutputFormats imageFormat, ICaptureDetails captureDetails)
+        /// <summary>
+        /// Create a filename for the pattern based upon the specified details
+        /// </summary>
+        /// <param name="pattern">string</param>
+        /// <param name="imageFormat">OutputFormats</param>
+        /// <param name="captureDetails">ICaptureDetails</param>
+        /// <returns>string with filename</returns>
+        public static string GetFilenameFromPattern(string pattern, OutputFormats imageFormat, ICaptureDetails captureDetails)
 		{
 			return FillPattern(pattern, captureDetails, true) + "." + imageFormat.ToString().ToLower();
 		}

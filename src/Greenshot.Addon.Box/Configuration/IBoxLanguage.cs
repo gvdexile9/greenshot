@@ -1,6 +1,4 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
+﻿// Greenshot - a free and open source screenshot tool
 // Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
@@ -19,8 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 using Dapplo.Config.Language;
 
 namespace Greenshot.Addon.Box.Configuration
@@ -28,6 +24,7 @@ namespace Greenshot.Addon.Box.Configuration
     [Language("Box")]
     public interface IBoxLanguage : ILanguage
     {
+#pragma warning disable 1591
         string CommunicationWait { get; }
 
         string Configure { get; }

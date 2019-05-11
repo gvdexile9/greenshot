@@ -1,6 +1,4 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
+﻿// Greenshot - a free and open source screenshot tool
 // Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
@@ -19,19 +17,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
-using System.ComponentModel;
 using Dapplo.Config.Language;
 
-#endregion
-
-namespace Greenshot.Addon.Tfs
+namespace Greenshot.Addon.Tfs.Configuration
 {
+    /// <summary>
+    /// This contains the translations which are available for the TFS add-on
+    /// </summary>
     [Language("Tfs")]
-    public interface ITfsLanguage : ILanguage, INotifyPropertyChanged
+#pragma warning disable 1591
+    public interface ITfsLanguage : ILanguage
     {
         string CommunicationWait { get; }
 

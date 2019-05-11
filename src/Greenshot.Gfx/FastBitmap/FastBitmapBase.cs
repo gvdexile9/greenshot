@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,17 +17,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Dapplo.Windows.Common.Extensions;
 using Dapplo.Windows.Common.Structs;
-
-#endregion
 
 namespace Greenshot.Gfx.FastBitmap
 {
@@ -38,37 +30,76 @@ namespace Greenshot.Gfx.FastBitmap
 	/// </summary>
 	public abstract unsafe class FastBitmapBase : IFastBitmapWithClip, IFastBitmapWithOffset
 	{
+		/// <summary>
+		/// Index of the alpha data
+		/// </summary>
 		protected const int PixelformatIndexA = 3;
+        /// <summary>
+        /// Index of the red data
+        /// </summary>
 		protected const int PixelformatIndexR = 2;
+        /// <summary>
+        /// Index of the green data
+        /// </summary>
 		protected const int PixelformatIndexG = 1;
+        /// <summary>
+        /// Index of the blue data
+        /// </summary>
 		protected const int PixelformatIndexB = 0;
 
+        /// <summary>
+        /// Index of the red color data
+        /// </summary>
 		public const int ColorIndexR = 0;
+        /// <summary>
+        /// Index of the green color data
+        /// </summary>
 		public const int ColorIndexG = 1;
+        /// <summary>
+        /// Index of the blue color data
+        /// </summary>
 		public const int ColorIndexB = 2;
+        /// <summary>
+        /// Index of the alpha color data
+        /// </summary>
 		public const int ColorIndexA = 3;
 
 	    private const uint Seed = 0x9747b28c;
 
+        /// <summary>
+        /// Area which is covered by this fast bitmap
+        /// </summary>
         protected NativeRect Area;
 
 		/// <summary>
 		///     The bitmap for which the FastBitmap is creating access
 		/// </summary>
-		protected Bitmap Bitmap;
+		protected IBitmapWithNativeSupport Bitmap;
 
+		/// <summary>
+		/// Are the bits already locked?
+		/// </summary>
 		protected bool BitsLocked;
 
+		/// <summary>
+		/// This contains the locked BitmapData
+		/// </summary>
 		protected BitmapData BmData;
+		/// <summary>
+		/// Pointer to image data
+		/// </summary>
 		protected byte* Pointer;
-		protected int Stride; /* bytes per pixel row */
+        /// <summary>
+        /// bytes per pixel row
+        /// </summary>
+		protected int Stride;
 
 		/// <summary>
 		///     Constructor which stores the image and locks it when called
 		/// </summary>
 		/// <param name="bitmap">Bitmap</param>
 		/// <param name="area">NativeRect</param>
-		protected FastBitmapBase(Bitmap bitmap, NativeRect? area = null)
+		protected FastBitmapBase(IBitmapWithNativeSupport bitmap, NativeRect? area = null)
 		{
 			Bitmap = bitmap;
 			var bitmapArea = new NativeRect(NativePoint.Empty, bitmap.Size);
@@ -76,30 +107,29 @@ namespace Greenshot.Gfx.FastBitmap
 			// As the lock takes care that only the specified area is made available we need to calculate the offset
 			Left = Area.Left;
 			Top = Area.Top;
-			// Default cliping is done to the area without invert
+			// Default clipping is done to the area without invert
 			Clip = Area;
 			InvertClip = false;
 			// Always lock, so we don't need to do this ourselves
 			Lock();
 		}
 
-		/// <summary>
-		///     If this is set to true, the bitmap will be disposed when disposing the IFastBitmap
-		/// </summary>
+		/// <inheritdoc />
 		public bool NeedsDispose { get; set; }
 
-		public NativeRect Clip { get; set; }
+        /// <inheritdoc />
+        public NativeRect Clip { get; set; }
 
-		public bool InvertClip { get; set; }
+        /// <inheritdoc />
+        public bool InvertClip { get; set; }
 
-		public void SetResolution(float horizontal, float vertical)
+        /// <inheritdoc />
+        public void SetResolution(float horizontal, float vertical)
 		{
-			Bitmap.SetResolution(horizontal, vertical);
+			Bitmap.NativeBitmap.SetResolution(horizontal, vertical);
 		}
 
-		/// <summary>
-		///     Return the size of the image
-		/// </summary>
+		/// <inheritdoc />
 		public Size Size
 		{
 			get
@@ -112,9 +142,7 @@ namespace Greenshot.Gfx.FastBitmap
 			}
 		}
 
-		/// <summary>
-		///     Return the width of the image
-		/// </summary>
+		/// <inheritdoc />
 		public int Width
 		{
 			get
@@ -123,9 +151,7 @@ namespace Greenshot.Gfx.FastBitmap
 			}
 		}
 
-		/// <summary>
-		///     Return the height of the image
-		/// </summary>
+        /// <inheritdoc />
 		public int Height
 		{
 			get
@@ -134,38 +160,28 @@ namespace Greenshot.Gfx.FastBitmap
 			}
 		}
 
-		/// <summary>
-		///     Return the left of the fastbitmap, this is also used as an offset
-		/// </summary>
-		public int Left
+        /// <inheritdoc />
+        public int Left
 		{
 			get { return 0; }
 			set { ((IFastBitmapWithOffset) this).Left = value; }
 		}
 
-		/// <summary>
-		///     Return the top of the fastbitmap, this is also used as an offset
-		/// </summary>
-		public int Top
+        /// <inheritdoc />
+        public int Top
 		{
 			get { return 0; }
 			set { ((IFastBitmapWithOffset) this).Top = value; }
 		}
 
-		/// <summary>
-		///     Return the right of the fastbitmap
-		/// </summary>
-		public int Right => Left + Width;
+        /// <inheritdoc />
+        public int Right => Left + Width;
 
-		/// <summary>
-		///     Return the bottom of the fastbitmap
-		/// </summary>
-		public int Bottom => Top + Height;
+        /// <inheritdoc />
+        public int Bottom => Top + Height;
 
-		/// <summary>
-		///     Returns the underlying bitmap, unlocks it and prevents that it will be disposed
-		/// </summary>
-		public Bitmap UnlockAndReturnBitmap()
+        /// <inheritdoc />
+        public IBitmapWithNativeSupport UnlockAndReturnBitmap()
 		{
 			if (BitsLocked)
 			{
@@ -175,12 +191,14 @@ namespace Greenshot.Gfx.FastBitmap
 			return Bitmap;
 		}
 
-		public virtual bool HasAlphaChannel => false;
+        /// <inheritdoc />
+        public virtual bool HasAlphaChannel => false;
 
-		/// <summary>
-		///     The public accessible Dispose
-		///     Will call the GarbageCollector to SuppressFinalize, preventing being cleaned twice
-		/// </summary>
+		/// <inheritdoc />
+        /// <summary>
+        ///     The public accessible Dispose
+        ///     Will call the GarbageCollector to SuppressFinalize, preventing being cleaned twice
+        /// </summary>
 		public void Dispose()
 		{
 			Dispose(true);
@@ -196,7 +214,7 @@ namespace Greenshot.Gfx.FastBitmap
 			{
 				return;
 			}
-			BmData = Bitmap.LockBits(Area, ImageLockMode.ReadWrite, Bitmap.PixelFormat);
+			BmData = Bitmap.NativeBitmap.LockBits(Area, ImageLockMode.ReadWrite, Bitmap.PixelFormat);
 			BitsLocked = true;
 
 			var scan0 = BmData.Scan0;
@@ -213,7 +231,7 @@ namespace Greenshot.Gfx.FastBitmap
 		    {
 		        return;
 		    }
-		    Bitmap.UnlockBits(BmData);
+		    Bitmap.NativeBitmap.UnlockBits(BmData);
 		    BitsLocked = false;
 		}
 
@@ -242,7 +260,7 @@ namespace Greenshot.Gfx.FastBitmap
 				Unlock();
 			}
 
-			graphics.DrawImage(Bitmap, destinationRect, Area, GraphicsUnit.Pixel);
+			graphics.DrawImage(Bitmap.NativeBitmap, destinationRect, Area, GraphicsUnit.Pixel);
 		}
 
 	    /// <inheritdoc />
@@ -339,8 +357,6 @@ namespace Greenshot.Gfx.FastBitmap
 	        }
             return hash.CalculatedHash;
 	    }
-
-        #region IFastBitmapWithClip
 
         /// <summary>
         ///     Test if the bitmap containt the specified coordinates
@@ -485,16 +501,12 @@ namespace Greenshot.Gfx.FastBitmap
 	        SetColorAt(x, y, color, colorIndex);
 	    }
 
-        #endregion
-
-        #region IFastBitmapWithOffset
-
         /// <summary>
-        ///     returns true if x & y are inside the FastBitmap
+        ///     returns true if x and y are inside the FastBitmap
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        /// <returns>true if x & y are inside the FastBitmap</returns>
+        /// <returns>true if x and y are inside the FastBitmap</returns>
         bool IFastBitmapWithOffset.Contains(int x, int y)
 		{
 			return Area.Contains(x - Left, y - Top);
@@ -554,7 +566,5 @@ namespace Greenshot.Gfx.FastBitmap
 			y -= ((IFastBitmapWithOffset) this).Top;
 			SetColorAt(x, y, ref color);
 		}
-
-		#endregion
-	}
+    }
 }

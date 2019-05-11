@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,20 +17,18 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System.ComponentModel;
 using Dapplo.Config.Language;
 
-#endregion
-
 namespace Greenshot.Addons
 {
+    /// <summary>
+    /// This specifies many translations
+    /// </summary>
     [Language("Core")]
     public interface IGreenshotLanguage : ILanguage, Dapplo.CaliburnMicro.Translations.ICoreTranslations
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         string None { get; }
         string AboutBugs { get; }
         string AboutDonations { get; }

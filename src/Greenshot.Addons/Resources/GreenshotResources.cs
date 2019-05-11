@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,10 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Drawing;
 using System.IO;
@@ -31,12 +25,10 @@ using Dapplo.Addons;
 using Dapplo.Windows.Icons;
 using Greenshot.Gfx;
 
-#endregion
-
 namespace Greenshot.Addons.Resources
 {
 	/// <summary>
-	///     Centralized storage of the icons & bitmaps
+	///     Centralized storage of the icons and bitmaps
 	/// </summary>
 	public class GreenshotResources
 	{
@@ -88,8 +80,8 @@ namespace Greenshot.Addons.Resources
         /// <summary>
         /// Get the Greenshot logo as a Bitmap
         /// </summary>
-        /// <returns>Bitmap</returns>
-        public Bitmap GetGreenshotImage()
+        /// <returns>IBitmapWithNativeSupport</returns>
+        public IBitmapWithNativeSupport GetGreenshotImage()
 		{
 		    return GetBitmap("Greenshot.Image.png", GetType());
 		}
@@ -99,8 +91,8 @@ namespace Greenshot.Addons.Resources
         /// </summary>
         /// <param name="name">string</param>
         /// <param name="type">Type</param>
-        /// <returns>Bitmap</returns>
-	    public Bitmap GetBitmap(string name, Type type = null)
+        /// <returns>IBitmapWithNativeSupport</returns>
+	    public IBitmapWithNativeSupport GetBitmap(string name, Type type = null)
 	    {
 	        if (name.EndsWith(".Image"))
 	        {

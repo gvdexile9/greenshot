@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,18 +17,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Dapplo.Windows.Common.Extensions;
 using Dapplo.Windows.Common.Structs;
 using Greenshot.Addons.Interfaces.Drawing;
-
-#endregion
 
 namespace Greenshot.Addon.LegacyEditor.Drawing.Adorners
 {
@@ -39,10 +31,13 @@ namespace Greenshot.Addon.LegacyEditor.Drawing.Adorners
 	/// </summary>
 	public class TargetAdorner : AbstractAdorner
 	{
-		public TargetAdorner(IDrawableContainer owner, NativePoint location) : base(owner)
+        private readonly Color _color;
+
+        public TargetAdorner(IDrawableContainer owner, NativePoint location, Color color) : base(owner)
 		{
 			Location = location;
-		}
+            _color = color;
+        }
 
 		/// <summary>
 		///     Handle the mouse down
@@ -51,7 +46,7 @@ namespace Greenshot.Addon.LegacyEditor.Drawing.Adorners
 		/// <param name="mouseEventArgs"></param>
 		public override void MouseDown(object sender, MouseEventArgs mouseEventArgs)
 		{
-			EditStatus = EditStatus.MOVING;
+			EditStatus = EditStatus.Moving;
 		}
 
 		/// <summary>
@@ -61,7 +56,7 @@ namespace Greenshot.Addon.LegacyEditor.Drawing.Adorners
 		/// <param name="mouseEventArgs"></param>
 		public override void MouseMove(object sender, MouseEventArgs mouseEventArgs)
 		{
-			if (EditStatus != EditStatus.MOVING)
+			if (EditStatus != EditStatus.Moving)
 			{
 				return;
 			}
@@ -104,8 +99,12 @@ namespace Greenshot.Addon.LegacyEditor.Drawing.Adorners
 			var targetGraphics = paintEventArgs.Graphics;
 
 			var bounds = Bounds;
-			targetGraphics.FillRectangle(Brushes.Green, bounds.X, bounds.Y, bounds.Width, bounds.Height);
-		}
+            using (var brush = new SolidBrush(_color))
+            {
+                targetGraphics.FillRectangle(brush, bounds.X, bounds.Y, bounds.Width, bounds.Height);
+
+            }
+        }
 
 		/// <summary>
 		///     Made sure this adorner is transformed

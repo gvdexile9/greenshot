@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,13 +17,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region using
-
 using System;
-
-#endregion
 
 namespace Greenshot.Addons.Animation
 {
@@ -34,16 +26,31 @@ namespace Greenshot.Addons.Animation
     /// </summary>
     public static class EaseSine
 	{
+        /// <summary>
+        /// Calculate the ease in
+        /// </summary>
+        /// <param name="s">double</param>
+        /// <returns>double</returns>
 		public static double EaseIn(double s)
 		{
 			return Math.Sin(s * (Math.PI / 2) - Math.PI / 2) + 1;
 		}
 
+        /// <summary>
+        /// Calculate the ease in out
+        /// </summary>
+        /// <param name="s">double</param>
+        /// <returns>double</returns>
 		public static double EaseInOut(double s)
 		{
 			return Math.Sin(s * Math.PI - Math.PI / 2 + 1) / 2;
 		}
 
+        /// <summary>
+        /// Calculate the ease out
+        /// </summary>
+        /// <param name="s">double</param>
+        /// <returns>double</returns>
 		public static double EaseOut(double s)
 		{
 			return Math.Sin(s * (Math.PI / 2));

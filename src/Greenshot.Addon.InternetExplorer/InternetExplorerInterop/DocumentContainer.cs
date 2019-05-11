@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,10 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -35,10 +29,11 @@ using Dapplo.Windows.Desktop;
 using mshtml;
 using IServiceProvider = Greenshot.Addons.Interop.IServiceProvider;
 
-#endregion
-
 namespace Greenshot.Addon.InternetExplorer.InternetExplorerInterop
 {
+	/// <summary>
+	/// This contains the document
+	/// </summary>
 	public class DocumentContainer
 	{
 		private const int E_ACCESSDENIED = unchecked((int) 0x80070005L);
@@ -99,7 +94,12 @@ namespace Greenshot.Addon.InternetExplorer.InternetExplorerInterop
 			Init(document2, contentWindow);
 		}
 
-		public DocumentContainer(IHTMLDocument2 document2, IInteropWindow contentWindow)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="document2">IHTMLDocument2</param>
+        /// <param name="contentWindow">IInteropWindow</param>
+        public DocumentContainer(IHTMLDocument2 document2, IInteropWindow contentWindow)
 		{
 			Init(document2, contentWindow);
 			Log.Debug().WriteLine("Creating DocumentContainer for Document {0} found in window with rectangle {1}", Name, SourceRectangle);
@@ -139,16 +139,34 @@ namespace Greenshot.Addon.InternetExplorer.InternetExplorerInterop
 
 		public string Name { get; private set; }
 
+		/// <summary>
+		/// Url of the document
+		/// </summary>
 		public string Url { get; private set; }
 
+		/// <summary>
+		/// Is this document hidden?
+		/// </summary>
 		public bool IsHidden => ClientWidth == 0 || ClientHeight == 0;
 
+		/// <summary>
+		/// Width of the client
+		/// </summary>
 		public int ClientWidth => ScaleX(GetAttributeAsInt("clientWidth"));
 
+        /// <summary>
+        /// Height of the client
+        /// </summary>
 		public int ClientHeight => ScaleY(GetAttributeAsInt("clientHeight"));
 
+        /// <summary>
+        /// Width of the scroll area
+        /// </summary>
 		public int ScrollWidth => ScaleX(GetAttributeAsInt("scrollWidth"));
 
+        /// <summary>
+        /// Height of the scroll area
+        /// </summary>
 		public int ScrollHeight => ScaleY(GetAttributeAsInt("scrollHeight"));
 
 		public NativePoint SourceLocation { get; set; }
@@ -191,18 +209,27 @@ namespace Greenshot.Addon.InternetExplorer.InternetExplorerInterop
 
 		public int DestinationBottom => _destinationLocation.Y + ScrollHeight;
 
+        /// <summary>
+        /// Left of the scroll area
+        /// </summary>
 		public int ScrollLeft
 		{
 			get { return ScaleX(GetAttributeAsInt("scrollLeft")); }
 			set { SetAttribute("scrollLeft", UnscaleX(value)); }
 		}
 
+		/// <summary>
+		/// Top of the scroll area
+		/// </summary>
 		public int ScrollTop
 		{
 			get { return ScaleY(GetAttributeAsInt("scrollTop")); }
 			set { SetAttribute("scrollTop", UnscaleY(value)); }
 		}
 
+		/// <summary>
+		/// The list of frames
+		/// </summary>
 		public IList<DocumentContainer> Frames { get; } = new List<DocumentContainer>();
 
 		/// <summary>
@@ -385,11 +412,11 @@ namespace Greenshot.Addon.InternetExplorer.InternetExplorerInterop
 			}
 		}
 
-		/// <summary>
-		///     Corrent the frame locations with the information
-		/// </summary>
-		/// <param name="frameElement"></param>
-		private void CorrectFrameLocations(IHTMLElement frameElement)
+        /// <summary>
+        ///     Correct the frame locations with the information
+        /// </summary>
+        /// <param name="frameElement">IHTMLElement</param>
+        private void CorrectFrameLocations(IHTMLElement frameElement)
 		{
 			long x = 0;
 			long y = 0;

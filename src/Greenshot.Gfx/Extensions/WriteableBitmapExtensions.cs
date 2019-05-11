@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,22 +17,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Dapplo.Windows.Common.Structs;
 
 namespace Greenshot.Gfx.Extensions
 {
+    /// <summary>
+    /// These extensions are for the writable bitmap
+    /// </summary>
     public static class WriteableBitmapExtensions
     {
         /// <summary>
         /// Copy the rect from source to target 
         /// </summary>
-        /// <param name="target"></param>
-        /// <param name="source"></param>
-        /// <param name="rect"></param>
+        /// <param name="target">WriteableBitmap</param>
+        /// <param name="source">BitmapSource</param>
+        /// <param name="rect">BitmapSource</param>
         public static void CopyPixels(this WriteableBitmap target, BitmapSource source, NativeRect rect)
         {
             // Calculate stride of source

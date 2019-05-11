@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,10 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,7 +27,6 @@ using System.Windows.Forms;
 using Dapplo.Log;
 using Dapplo.Windows.Common.Extensions;
 using Dapplo.Windows.Common.Structs;
-using Greenshot.Addon.LegacyEditor.Configuration.Impl;
 using Greenshot.Addon.LegacyEditor.Drawing.Adorners;
 using Greenshot.Addon.LegacyEditor.Drawing.Fields;
 using Greenshot.Addon.LegacyEditor.Drawing.Filters;
@@ -41,9 +34,8 @@ using Greenshot.Addon.LegacyEditor.Memento;
 using Greenshot.Addons.Interfaces;
 using Greenshot.Addons.Interfaces.Drawing;
 using Greenshot.Addons.Interfaces.Drawing.Adorners;
+using Greenshot.Gfx;
 using Greenshot.Gfx.Legacy;
-
-#endregion
 
 namespace Greenshot.Addon.LegacyEditor.Drawing
 {
@@ -73,7 +65,7 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 		// will store current bounds of this DrawableContainer before starting a resize
 		protected NativeRect _boundsBeforeResize = NativeRect.Empty;
 
-		protected EditStatus _defaultEditMode = EditStatus.DRAWING;
+		protected EditStatus _defaultEditMode = EditStatus.Drawing;
 
 		[NonSerialized] internal Surface _parent;
 
@@ -81,20 +73,20 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 
 		[NonSerialized] private bool _selected;
 
-		[NonSerialized] private EditStatus _status = EditStatus.UNDRAWN;
+		[NonSerialized] private EditStatus _status = EditStatus.Undrawn;
 
 		[NonSerialized] private TargetAdorner _targetAdorner;
 
-		private bool accountForShadowChange;
+		private bool _accountForShadowChange;
 
-		private int height;
+		private int _height;
 
 
-		private int left;
+		private int _left;
 
-		private int top;
+		private int _top;
 
-		private int width;
+		private int _width;
 
 		public DrawableContainer(Surface parent, IEditorConfiguration editorConfiguration) : base(editorConfiguration)
 		{
@@ -118,26 +110,41 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 			}
 		}
 
+        /// <summary>
+        /// The adorner for the target
+        /// </summary>
 		public TargetAdorner TargetAdorner
 		{
 			get { return _targetAdorner; }
 		}
 
+        /// <summary>
+        /// Specifies if this contain has a context menu
+        /// </summary>
 		public virtual bool HasContextMenu
 		{
 			get { return true; }
 		}
 
+        /// <summary>
+        /// Specifies if this container has a default size
+        /// </summary>
 		public virtual bool HasDefaultSize
 		{
 			get { return false; }
 		}
 
+        /// <summary>
+        /// The default size
+        /// </summary>
 		public virtual Size DefaultSize
 		{
 			get { throw new NotSupportedException("Object doesn't have a default size"); }
 		}
 
+        /// <summary>
+        /// This specifies the edit status
+        /// </summary>
 		public EditStatus DefaultEditMode
 		{
 			get { return _defaultEditMode; }
@@ -153,18 +160,27 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 			GC.SuppressFinalize(this);
 		}
 
+        /// <summary>
+        /// The property change event is triggered when a property is changed
+        /// </summary>
 		public event PropertyChangedEventHandler PropertyChanged
 		{
 			add { _propertyChanged += value; }
 			remove { _propertyChanged -= value; }
 		}
 
+        /// <summary>
+        /// The surface this container belongs to
+        /// </summary>
 		public ISurface Parent
 		{
 			get { return _parent; }
 			set { SwitchParent((Surface) value); }
 		}
 
+        /// <summary>
+        /// Is this container selected?
+        /// </summary>
 		public bool Selected
 		{
 			get { return _selected; }
@@ -183,73 +199,73 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 
 		public int Left
 		{
-			get { return left; }
+			get { return _left; }
 			set
 			{
-				if (value == left)
+				if (value == _left)
 				{
 					return;
 				}
-				left = value;
+				_left = value;
 			}
 		}
 
 		public int Top
 		{
-			get { return top; }
+			get { return _top; }
 			set
 			{
-				if (value == top)
+				if (value == _top)
 				{
 					return;
 				}
-				top = value;
+				_top = value;
 			}
 		}
 
 		public int Width
 		{
-			get { return width; }
+			get { return _width; }
 			set
 			{
-				if (value == width)
+				if (value == _width)
 				{
 					return;
 				}
-				width = value;
+				_width = value;
 			}
 		}
 
 		public int Height
 		{
-			get { return height; }
+			get { return _height; }
 			set
 			{
-				if (value == height)
+				if (value == _height)
 				{
 					return;
 				}
-				height = value;
+				_height = value;
 			}
 		}
 
 		public NativePoint Location
 		{
-			get { return new NativePoint(left, top); }
+			get { return new NativePoint(_left, _top); }
 			set
 			{
-				left = value.X;
-				top = value.Y;
+				_left = value.X;
+				_top = value.Y;
 			}
 		}
 
 		public Size Size
 		{
-			get { return new Size(width, height); }
+			get { return new Size(_width, _height); }
 			set
 			{
-				width = value.Width;
-				height = value.Height;
+				_width = value.Width;
+				_height = value.Height;
 			}
 		}
 
@@ -298,9 +314,9 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 				var offset = lineThickness / 2;
 
 				var shadow = 0;
-				if (accountForShadowChange || HasField(FieldTypes.SHADOW) && GetFieldValueAsBool(FieldTypes.SHADOW))
+				if (_accountForShadowChange || HasField(FieldTypes.SHADOW) && GetFieldValueAsBool(FieldTypes.SHADOW))
 				{
-					accountForShadowChange = false;
+					_accountForShadowChange = false;
 					shadow += 10;
 				}
 				return new NativeRect(Bounds.Left - offset, Bounds.Top - offset, Bounds.Width + lineThickness + shadow, Bounds.Height + lineThickness + shadow);
@@ -309,7 +325,7 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 
 		public virtual void Invalidate()
 		{
-			if (Status != EditStatus.UNDRAWN)
+			if (Status != EditStatus.Undrawn)
 			{
 				_parent?.Invalidate(DrawingBounds);
 			}
@@ -335,15 +351,15 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 				Left = _parent.Width / 2 - Width / 2 - lineThickness / 2;
 			}
 
-			if (verticalAlignment == VerticalAlignment.TOP)
+			if (verticalAlignment == VerticalAlignment.Top)
 			{
 				Top = lineThickness / 2;
 			}
-			if (verticalAlignment == VerticalAlignment.BOTTOM)
+			if (verticalAlignment == VerticalAlignment.Bottom)
 			{
 				Top = _parent.Height - Height - lineThickness / 2;
 			}
-			if (verticalAlignment == VerticalAlignment.CENTER)
+			if (verticalAlignment == VerticalAlignment.Center)
 			{
 				Top = _parent.Height / 2 - Height / 2 - lineThickness / 2;
 			}
@@ -354,7 +370,7 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 			return true;
 		}
 
-		public bool hasFilters
+		public bool HasFilters
 		{
 			get { return Filters.Count > 0; }
 		}
@@ -501,6 +517,9 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 			return (int) Math.Round(f);
 		}
 
+        /// <summary>
+        /// This is called when the container is double clicked
+        /// </summary>
 		public virtual void OnDoubleClick()
 		{
 		}
@@ -510,7 +529,8 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 		/// </summary>
 		protected void InitAdorner(Color gripperColor, NativePoint location)
 		{
-			_targetAdorner = new TargetAdorner(this, location);
+            // TODO: Pass the gripperColor to the target adorner
+			_targetAdorner = new TargetAdorner(this, location, gripperColor);
 			Adorners.Add(_targetAdorner);
 		}
 
@@ -536,11 +556,11 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 
 		public abstract void Draw(Graphics graphics, RenderMode renderMode);
 
-		public virtual void DrawContent(Graphics graphics, Bitmap bmp, RenderMode renderMode, NativeRect clipRectangle)
+		public virtual void DrawContent(Graphics graphics, IBitmapWithNativeSupport bmp, RenderMode renderMode, NativeRect clipRectangle)
 		{
 			if (Children.Count > 0)
 			{
-				if (Status != EditStatus.IDLE)
+				if (Status != EditStatus.Idle)
 				{
 					DrawSelectionBorder(graphics, Bounds);
 				}
@@ -592,7 +612,7 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 		}
 
 
-		public void ResizeTo(int width, int height, int anchorPosition)
+		public void ResizeTo(int width, int height)
 		{
 			Width = width;
 			Height = height;
@@ -645,7 +665,7 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 			Log.Debug().WriteLine("Field {0} changed", e.Field.FieldType);
 			if (Equals(e.Field.FieldType, FieldTypes.SHADOW))
 			{
-				accountForShadowChange = true;
+				_accountForShadowChange = true;
 			}
 		}
 
@@ -682,7 +702,7 @@ namespace Greenshot.Addon.LegacyEditor.Drawing
 			return (int) -Math.Round(radians * 180 / Math.PI);
 		}
 
-		protected virtual ScaleHelper.IDoubleProcessor GetAngleRoundProcessor()
+		protected virtual IDoubleProcessor GetAngleRoundProcessor()
 		{
 			return ScaleHelper.ShapeAngleRoundBehavior.Instance;
 		}

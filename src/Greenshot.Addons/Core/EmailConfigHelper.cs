@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,19 +17,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System.IO;
 using Microsoft.Win32;
-
-#endregion
 
 namespace Greenshot.Addons.Core
 {
 	/// <summary>
-	///     Description of EmailConfigHelper.
+	/// Contains some helper functionality for MAPI
 	/// </summary>
 	public static class EmailConfigHelper
 	{
@@ -40,6 +32,10 @@ namespace Greenshot.Addons.Core
 		private const string MapiLocationKey = @"SOFTWARE\Microsoft\Windows Messaging Subsystem";
 		private const string MapiKey = @"MAPI";
 
+		/// <summary>
+		/// Retrieve the name of the installed MAPI client
+		/// </summary>
+		/// <returns></returns>
 		public static string GetMapiClient()
 		{
 			using (var key = Registry.CurrentUser.OpenSubKey(MapiClientKey, false))
@@ -55,7 +51,11 @@ namespace Greenshot.Addons.Core
 			}
 		}
 
-		public static bool HasMapi()
+        /// <summary>
+        /// Check if a MAPI client is installed
+        /// </summary>
+        /// <returns>bool</returns>
+        public static bool HasMapi()
 		{
 			using (var key = Registry.LocalMachine.OpenSubKey(MapiLocationKey, false))
 			{
@@ -63,7 +63,11 @@ namespace Greenshot.Addons.Core
 			}
 		}
 
-		public static string GetOutlookExePath()
+        /// <summary>
+        /// Get the path of Outlook from the registry
+        /// </summary>
+        /// <returns>string</returns>
+        public static string GetOutlookExePath()
 		{
 			using (var key = Registry.LocalMachine.OpenSubKey(OutlookPathKey, false))
 			{

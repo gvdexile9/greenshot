@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,22 +17,44 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
 namespace Greenshot.Core.Enums
 {
     /// <summary>
-    /// This is used to specified what type of capture
+    /// This is used to specified what type elements in an capture are
     /// </summary>
     public enum CaptureElementType
     {
+        /// <summary>
+        /// Not specified
+        /// </summary>
         Unknown,
+        /// <summary>
+        /// Screen
+        /// </summary>
         Screen,
+        /// <summary>
+        /// Mouse
+        /// </summary>
         Mouse,
+        /// <summary>
+        /// Cursor
+        /// </summary>
         Cursor,
+        /// <summary>
+        /// Icon
+        /// </summary>
         Icon,
+        /// <summary>
+        /// Popup
+        /// </summary>
         Popup,
+        /// <summary>
+        /// Window
+        /// </summary>
         Window,
+        /// <summary>
+        /// File
+        /// </summary>
         File
     }
 }

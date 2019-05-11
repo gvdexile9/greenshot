@@ -1,7 +1,5 @@
-#region Greenshot GNU General Public License
-
 // Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,13 +17,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System.Drawing;
-
-#endregion
 
 namespace Greenshot.Gfx.FastBitmap
 {
@@ -34,9 +26,15 @@ namespace Greenshot.Gfx.FastBitmap
 	/// </summary>
 	public unsafe interface IFastBitmapWithOffset : IFastBitmap
 	{
+        /// <summary>
+        /// Specify the x offset for the IFastBitmap
+        /// </summary>
 		new int Left { get; set; }
 
-		new int Top { get; set; }
+        /// <summary>
+        /// Specify the y offset for the IFastBitmap
+        /// </summary>
+        new int Top { get; set; }
 
 		/// <summary>
 		///     Return true if the coordinates are inside the FastBitmap

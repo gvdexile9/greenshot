@@ -1,7 +1,5 @@
-﻿#region Greenshot GNU General Public License
-
-// Greenshot - a free and open source screenshot tool
-// Copyright (C) 2007-2018 Thomas Braun, Jens Klingen, Robin Krom
+﻿// Greenshot - a free and open source screenshot tool
+// Copyright (C) 2007-2019 Thomas Braun, Jens Klingen, Robin Krom
 // 
 // For more information see: http://getgreenshot.org/
 // The Greenshot project is hosted on GitHub https://github.com/greenshot/greenshot
@@ -19,18 +17,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#endregion
-
-#region Usings
-
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dapplo.Log;
 using Greenshot.Addons.Resources;
-
-#endregion
 
 namespace Greenshot.Addons.Controls
 {
@@ -50,6 +42,10 @@ namespace Greenshot.Addons.Controls
 	    private readonly CancellationTokenSource _cancellationTokenSource;
 	    private Thread _waitFor;
 
+        /// <summary>
+        /// DI constructor
+        /// </summary>
+        /// <param name="greenshotLanguage">IGreenshotLanguage</param>
 		public PleaseWaitForm(IGreenshotLanguage greenshotLanguage)
 		{
 		    _greenshotLanguage = greenshotLanguage;
@@ -60,11 +56,17 @@ namespace Greenshot.Addons.Controls
 			Icon = GreenshotResources.Instance.GetGreenshotIcon();
 		}
 
+        /// <summary>
+        /// DI constructor
+        /// </summary>
+        /// <param name="greenshotLanguage">IGreenshotLanguage</param>
+        /// <param name="cancellationTokenSource">CancellationTokenSource</param>
 	    public PleaseWaitForm(IGreenshotLanguage greenshotLanguage, CancellationTokenSource cancellationTokenSource = default) : this(greenshotLanguage)
 	    {
 	        _cancellationTokenSource = cancellationTokenSource;
         }
 
+        /// <inheritdoc/>
         protected override CreateParams CreateParams
 		{
 			get
